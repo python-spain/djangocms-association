@@ -1,5 +1,5 @@
 from cities.models import District, City, Subregion, Region
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.db.models import PointField
 from django.core.exceptions import ValidationError
@@ -7,6 +7,7 @@ from django.core.validators import URLValidator, EmailValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from phonenumber_field.validators import validate_international_phonenumber
+from taggit.managers import TaggableManager
 
 CONTACT_FIELD_TYPES = [
     (
@@ -101,3 +102,14 @@ class GenericContactField(AbstractContactField):
 
 class Address(AbstractAddress):
     pass
+
+
+class AbstractContact(models.Model):
+    address = models.OneToOneField(Address, label=_('Address'), blank=True, null=True, on_delete=models.SET_NULL)
+    interests = TaggableManager(label=_('Interests'))
+    fields = GenericRelation(GenericContactField, label=_('Fields'))
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        abstract = True

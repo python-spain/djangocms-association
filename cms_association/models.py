@@ -1,21 +1,21 @@
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from taggit.managers import TaggableManager
 
-from cms_contacts.models import GenericContactField
+from cms_contact.models import GenericContactField, Address, AbstractContact
 from cms_people.models import Person
 
 
-class Association(models.Model):
+class Association(AbstractContact):
     name = models.CharField(max_length=60, label=_('Name'))
     slug = models.SlugField(max_length=80, label=('Slug'))
     description = models.TextField(verbose_name=_('Description'))
     logo = models.ImageField(upload_to='logos', label=_('Logo'), blank=True, null=True)
     parent = models.ForeignKey('self', blank=True, label=_('Parent association'), null=True, on_delete=models.SET_NULL)
-    fields = GenericRelation(GenericContactField, label=_('Fields'))
     members = models.ManyToManyField(Person, through='Membership')
-    updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    foundation_date = models.DateField(auto_now_add=True)
+    death_date = models.DateField(blank=True, null=True)
 
 
 class Membership(models.Model):
