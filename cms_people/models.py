@@ -38,7 +38,13 @@ class Person(AbstractContact):
     address_privacy = models.CharField(max_length=20, label=_('Address privacy'), choices=ADDRESS_PRIVACY,
                                        default='ONLYCITY')
     bio_privacy = models.CharField(max_length=20, label=_('Bio privacy'), choices=BIO_PRIVACY, default='VISIBLE')
-    email_privacy = models.CharField(max_length=20, label=('Email privacy'), choices=EMAIL_PRIVACY,
+    email_privacy = models.CharField(max_length=20, label=_('Email privacy'), choices=EMAIL_PRIVACY,
                                      default='ONLYMEMBERS')
     telephones_privacy = models.CharField(max_length=20, label=_('Telephones privacy'), choices=TELEPHONES_PRIVACY,
                                           default='ONLYMEMBERS')
+    # Newsletters
+    news = models.BooleanField(default=True, label=_('News'))
+    nearby_new_members = models.BooleanField(default=True, label=_('Nearby new members'))
+    nearby_new_associations = models.BooleanField(default=True, label=_('Nearby new associations'))
+    nearby_new_jobs = models.BooleanField(default=False, label=_('Nearby new jobs'))
+    nearby_new_events = models.BooleanField(default=True, label=_('Nearby new events'))

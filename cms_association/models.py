@@ -7,11 +7,20 @@ from cms_contact.models import GenericContactField, Address, AbstractContact
 from cms_people.models import Person
 
 
+EVENT_TARGET = [
+    ('LOCAL', _('Local')),
+    ('REGION', _('Region')),
+    ('COUNTRY', _('Country')),
+    ('INTERNATIONAL', _('International')),
+]
+
+
 class Association(AbstractContact):
     name = models.CharField(max_length=60, label=_('Name'))
     slug = models.SlugField(max_length=80, label=('Slug'))
     description = models.TextField(verbose_name=_('Description'))
     logo = models.ImageField(upload_to='logos', label=_('Logo'), blank=True, null=True)
+    target = models.CharField(max_length=18, choices=EVENT_TARGET, default='LOCAL')
     parent = models.ForeignKey('self', blank=True, label=_('Parent association'), null=True, on_delete=models.SET_NULL)
     members = models.ManyToManyField(Person, through='Membership')
     foundation_date = models.DateField(auto_now_add=True)
