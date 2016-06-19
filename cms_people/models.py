@@ -31,17 +31,21 @@ class Person(models.Model):
     """A person corresponds to a Django user.
     It includes additional fields and privacy policies.
     """
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=_('User'))
-    bio = models.TextField(verbose_name=_('Bio'), blank=True, max_length=12000)
-    avatar = models.ImageField(upload_to='avatars', blank=True, null=True)
-    address = models.OneToOneField(Address, blank=True, null=True, on_delete=models.SET_NULL)
-    interests = TaggableManager()
-    fields = GenericRelation(GenericContactField)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, label=_('User'), verbose_name=_('User'))
+    bio = models.TextField(verbose_name=_('Biography'), blank=True, max_length=12000)
+    avatar = models.ImageField(label=_('Avatar'), upload_to='avatars', blank=True, null=True)
+    address = models.OneToOneField(Address, label=_('Address'), blank=True, null=True, on_delete=models.SET_NULL)
+    interests = TaggableManager(label=_('Address'))
+    fields = GenericRelation(GenericContactField, label=_('Interests'))
     # privacy policies
-    real_name_privacy = models.CharField(max_length=20, choices=REAL_NAME_PRIVACY, default='VISIBLE')
-    address_privacy = models.CharField(max_length=20, choices=ADDRESS_PRIVACY, default='ONLYCITY')
-    bio_privacy = models.CharField(max_length=20, choices=BIO_PRIVACY, default='VISIBLE')
-    email_privacy = models.CharField(max_length=20, choices=EMAIL_PRIVACY, default='ONLYMEMBERS')
-    telephones_privacy = models.CharField(max_length=20, choices=TELEPHONES_PRIVACY, default='ONLYMEMBERS')
+    real_name_privacy = models.CharField(max_length=20, label=_('Real name privacy'), choices=REAL_NAME_PRIVACY,
+                                         default='VISIBLE')
+    address_privacy = models.CharField(max_length=20, label=_('Address privacy'), choices=ADDRESS_PRIVACY,
+                                       default='ONLYCITY')
+    bio_privacy = models.CharField(max_length=20, label=_('Bio privacy'), choices=BIO_PRIVACY, default='VISIBLE')
+    email_privacy = models.CharField(max_length=20, label=('Email privacy'), choices=EMAIL_PRIVACY,
+                                     default='ONLYMEMBERS')
+    telephones_privacy = models.CharField(max_length=20, label=_('Telephones privacy'), choices=TELEPHONES_PRIVACY,
+                                          default='ONLYMEMBERS')
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
