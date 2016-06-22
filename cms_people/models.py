@@ -29,22 +29,23 @@ class Person(AbstractContact):
     """A person corresponds to a Django user.
     It includes additional fields and privacy policies.
     """
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, label=_('User'), verbose_name=_('User'))
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=_('User'))
     bio = models.TextField(verbose_name=_('Biography'), blank=True, max_length=12000)
-    avatar = models.ImageField(label=_('Avatar'), upload_to='avatars', blank=True, null=True)
+    avatar = models.ImageField(verbose_name=_('Avatar'), upload_to='avatars', blank=True, null=True)
     # privacy policies
-    real_name_privacy = models.CharField(max_length=20, label=_('Real name privacy'), choices=REAL_NAME_PRIVACY,
+    real_name_privacy = models.CharField(max_length=20, verbose_name=_('Real name privacy'), choices=REAL_NAME_PRIVACY,
                                          default='VISIBLE')
-    address_privacy = models.CharField(max_length=20, label=_('Address privacy'), choices=ADDRESS_PRIVACY,
+    address_privacy = models.CharField(max_length=20, verbose_name=_('Address privacy'), choices=ADDRESS_PRIVACY,
                                        default='ONLYCITY')
-    bio_privacy = models.CharField(max_length=20, label=_('Bio privacy'), choices=BIO_PRIVACY, default='VISIBLE')
-    email_privacy = models.CharField(max_length=20, label=_('Email privacy'), choices=EMAIL_PRIVACY,
+    bio_privacy = models.CharField(max_length=20, verbose_name=_('Bio privacy'), choices=BIO_PRIVACY, default='VISIBLE')
+    email_privacy = models.CharField(max_length=20, verbose_name=_('Email privacy'), choices=EMAIL_PRIVACY,
                                      default='ONLYMEMBERS')
-    telephones_privacy = models.CharField(max_length=20, label=_('Telephones privacy'), choices=TELEPHONES_PRIVACY,
+    telephones_privacy = models.CharField(max_length=20, verbose_name=_('Telephones privacy'),
+                                          choices=TELEPHONES_PRIVACY,
                                           default='ONLYMEMBERS')
     # Newsletters
-    news = models.BooleanField(default=True, label=_('News'))
-    nearby_new_members = models.BooleanField(default=True, label=_('Nearby new members'))
-    nearby_new_associations = models.BooleanField(default=True, label=_('Nearby new associations'))
-    nearby_new_jobs = models.BooleanField(default=False, label=_('Nearby new jobs'))
-    nearby_new_events = models.BooleanField(default=True, label=_('Nearby new events'))
+    news = models.BooleanField(default=True, verbose_name=_('News'))
+    nearby_new_members = models.BooleanField(default=True, verbose_name=_('Nearby new members'))
+    nearby_new_associations = models.BooleanField(default=True, verbose_name=_('Nearby new associations'))
+    nearby_new_jobs = models.BooleanField(default=False, verbose_name=_('Nearby new jobs'))
+    nearby_new_events = models.BooleanField(default=True, verbose_name=_('Nearby new events'))
