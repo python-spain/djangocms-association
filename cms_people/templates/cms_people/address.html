@@ -1,5 +1,18 @@
 {% extends "cms_people/profile.html" %}
+{% load sekizai_tags static %}
 
 {% block form %}
     {{ form }}
+{% endblock %}
+
+{% block bs3_theme_css %}
+    {{ block.super }}
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    {# TODO: change to djangocms-associations #}
+    <link rel="stylesheet" href="{% static 'pywebes/src/libs/select2-bootstrap-theme/dist/select2-bootstrap.css' %}">
+{% endblock %}
+
+{% block bs3_theme_js %}
+    {{ block.super }}
+    {{ form.media.js }}
 {% endblock %}
