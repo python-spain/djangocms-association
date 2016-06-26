@@ -1,5 +1,6 @@
-
+from django.conf.urls import url
+from ..views import AddressView
 
 urlpatterns = [
-    ('^address$', '')
+    url('^address$', AddressView.as_view(), name='Profile_address'),
 ]
