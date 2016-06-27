@@ -1,11 +1,23 @@
 from itertools import chain
 
-from cities.models import City, Subregion, Region
+from cities.models import City, Subregion, Region, Country
+from django.db.models import When, Value, Case, IntegerField
 from django.forms import ModelForm, ChoiceField
 from django.utils.encoding import force_text
 from django_select2.forms import  ModelSelect2Widget
 
 from cms_contact.models import Address
+
+
+MAIN_COUNTRY = 'ES'
+
+
+def main_country_priority(queryset, country_field='country'):
+    return queryset.annotate(main_country=Case(
+        When(**{country_field: Country.objects.get(code=MAIN_COUNTRY), 'then': Value('1')}),
+        default=Value('0'),
+        output_field=IntegerField()
+    )).order_by('-main_country', 'name')
 
 
 class AddressWidget(ModelSelect2Widget):
@@ -40,16 +52,16 @@ class AddressWidget(ModelSelect2Widget):
 
 
 class CityWidget(AddressWidget):
-    queryset = City.objects.all()
+    queryset = main_country_priority(City.objects).all()
     create_new = True
 
 
 class SubregionWidget(AddressWidget):
-    queryset = Subregion.objects.all()
+    queryset = main_country_priority(Subregion.objects, 'region__country').all()
 
 
 class RegionWidget(AddressWidget):
-    queryset = Region.objects.all()
+    queryset = main_country_priority(Region.objects).all()
 
     def label_from_instance(self, obj):
         return force_text(obj)

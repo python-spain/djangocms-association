@@ -30,7 +30,7 @@
         });
 
         $(function () {
-            $('#id_city').change(function () {
+            $('#id_city').on('select2:select', function () {
                 $.post("{% url "dataType" %}", {city: $('#id_city').val()});
             });
         });
