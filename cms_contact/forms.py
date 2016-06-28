@@ -25,7 +25,13 @@ class AddressWidget(ModelSelect2Widget):
     create_new = False
 
     search_fields = [
-        'name__icontains'
+        # Sort by:
+        # - First spain
+        # - Second Starts with term
+        # - Third population
+        # - Last alphanum.
+        'name__istartswith',
+        # 'name__icontains',
     ]
 
     def build_attrs(self, extra_attrs=None, **kwargs):
