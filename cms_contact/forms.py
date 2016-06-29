@@ -2,7 +2,8 @@ from itertools import chain
 
 from cities.models import City, Subregion, Region, Country
 from django.db.models import When, Value, Case, IntegerField
-from django.forms import ModelForm, ChoiceField
+from django.forms import ModelForm, ChoiceField, CharField
+from django.forms.widgets import Input
 from django.utils.encoding import force_text
 from django_select2.forms import  ModelSelect2Widget
 
@@ -21,7 +22,7 @@ def main_country_priority(queryset, country_field='country'):
 
 
 class AddressWidget(ModelSelect2Widget):
-    width = '300px'
+    width = '100%'
     create_new = False
 
     search_fields = [
@@ -77,7 +78,8 @@ class AddressForm(ModelForm):
     city = ChoiceField(widget=CityWidget)
     subregion = ChoiceField(widget=SubregionWidget)
     region = ChoiceField(widget=RegionWidget)
+    country = CharField(disabled=True)
 
     class Meta:
-        fields = ('street', 'city', 'subregion', 'region')
+        fields = ('street', 'city', 'subregion', 'region', 'custom_postal_code')
         model = Address

@@ -9,8 +9,8 @@ function rad2deg(radians){
 }
 
 // Semi-axes of WGS-84 geoidal reference
-WGS84_a = 6378137.0  // Major semiaxis [m]
-WGS84_b = 6356752.3  // Minor semiaxis [m]
+WGS84_a = 6378137.0 ; // Major semiaxis [m]
+WGS84_b = 6356752.3;  // Minor semiaxis [m]
 halfSideInKm = 200;
 
 // Earth radius at a given latitude, according to the WGS-84 ellipsoid [m]

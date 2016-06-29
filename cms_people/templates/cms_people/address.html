@@ -1,10 +1,24 @@
 {% extends "cms_people/profile.html" %}
-{% load sekizai_tags static %}
+{% load sekizai_tags static bootstrap3 %}
+
+{% block top %}
+    <iframe width="100%" height="250" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="map"
+            src="http://www.openstreetmap.org/export/embed.html?bbox=-3.357696533203125%2C36.58520897112158%2C-2.21099853515625%2C37.082023438186766&amp;layer=cyclemap&marker=51.89297,-8.49417"></iframe>
+
+{% endblock %}
 
 {% block form %}
-    <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="map"
-            src="http://www.openstreetmap.org/export/embed.html?bbox=-3.357696533203125%2C36.58520897112158%2C-2.21099853515625%2C37.082023438186766&amp;layer=cyclemap&marker=51.89297,-8.49417" style="border: 1px solid black"></iframe><br/><small><a href="http://www.openstreetmap.org/#map=11/36.8340/-2.7843&amp;layers=C">View Larger Map</a></small>
-    {{ form }}
+    <form class="form-horizontal">
+        <h2 class="col-md-offset-6">Address</h2>
+        {% bootstrap_form_errors form %}
+        {% bootstrap_field form.street layout='horizontal' %}
+        {% bootstrap_field form.city layout='horizontal' %}
+        {% bootstrap_field form.subregion layout='horizontal' %}
+        {% bootstrap_field form.region layout='horizontal' %}
+            {% bootstrap_field form.custom_postal_code layout='horizontal' form_group_class='col-md-12' label_class='col-md-12' field_class='col-md-12' %}
+            {% bootstrap_field form.country layout='horizontal' form_group_class='col-md-12' %}
+        {% bootstrap_button "submit" button_class="col-md-offset-6 btn-primary" size="lg" %}
+    </form>
 {% endblock %}
 
 {% block bs3_theme_css %}
