@@ -1,2 +1,2 @@
-django
+Django
 django-phonenumber-field
