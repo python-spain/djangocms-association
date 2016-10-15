@@ -29,7 +29,7 @@ class Person(AbstractContact):
     """A person corresponds to a Django user.
     It includes additional fields and privacy policies.
     """
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=_('User'))
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=_('User'), related_name='person')
     bio = models.TextField(verbose_name=_('Biography'), blank=True, max_length=12000)
     avatar = models.ImageField(verbose_name=_('Avatar'), upload_to='avatars', blank=True, null=True)
     # privacy policies

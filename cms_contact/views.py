@@ -1,14 +1,10 @@
 import json
 
 import six
-from cities.models import City
-from django.core import serializers
+from cities.models import City, PostalCode
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
-from django.views.generic.edit import UpdateView
-from cms_contact.forms import AddressForm
-from cms_contact.models import Address
 
 
 class AjaxView(View):
@@ -21,16 +17,6 @@ class AjaxView(View):
         return JsonResponse(super(AjaxView, self).dispatch(request, *args, **kwargs) or {}, safe=self.safe)
 
 
-class AddressView(UpdateView):
-    model = Address
-    form_class = AddressForm
-    template_name = 'cms_people/address.html'
-    # fields = ('street', 'city')
-
-    def get_object(self, queryset=None):
-        return None
-
-
 class AjaxPopulateAddress(AjaxView):
     safe = False
 
@@ -39,5 +25,11 @@ class AjaxPopulateAddress(AjaxView):
 
     def post(self, request, data):
         obj = get_object_or_404(City, pk=data['city'])
-        return {getattr(obj, key).__class__.__name__: {x: getattr(getattr(obj, key), x) for x in ['id', 'name']}
+        data = {getattr(obj, key).__class__.__name__: {x: getattr(getattr(obj, key), x) for x in ['id', 'name']}
                 for key in ['subregion', 'region', 'region__country', 'country'] if hasattr(obj, key)}
+        # TODO: en la web de Django cities se muestra cómo obtener el código postal en función a la distancia.
+        # No obstante, es bastante lento. Mientras lo  hago por el nombre, aunque habría que encontrar una
+        # forma más fiable de hacer esto.
+        postal_codes = PostalCode.objects.filter(name=obj.name)
+        data['postal_code'] = postal_codes.first().code if postal_codes.count() else None
+        return data

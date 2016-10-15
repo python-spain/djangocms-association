@@ -1,0 +1,17 @@
+{% extends "cms_people/profile.html" %}
+{% load sekizai_tags static bootstrap3 %}
+
+{% block profile_page %}basic{% endblock %}
+
+{% block form %}
+    <form class="form-horizontal">
+        <img src="" class="img-circle">
+        {% bootstrap_form form layout='horizontal' %}
+    </form>
+{% endblock %}
+
+
+{% block bs3_theme_js %}
+    {{ block.super }}
+    {{ form.media.js }}
+{% endblock %}

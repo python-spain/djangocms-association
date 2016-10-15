@@ -1,16 +1,18 @@
 {% extends "cms_bs3_theme/fullwidth.html" %}
 
 {% block content %}
-    {% block top %}
-    {% endblock %}
-    <div class="container">
-        <div class="col-md-6">
-            {% block sidebar_left %}
-            {% endblock %}
-        </div>
-        <div class="col-md-18">
-            {% block main %}
-            {% endblock %}
+    <div id="profile-{% block profile_page %}{% endblock %}">
+        {% block top %}
+        {% endblock %}
+        <div class="container">
+            <div class="col-md-6">
+                {% block sidebar_left %}
+                {% endblock %}
+            </div>
+            <div class="col-md-18">
+                {% block main %}
+                {% endblock %}
+            </div>
         </div>
     </div>
 {% endblock %}

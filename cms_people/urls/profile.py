@@ -1,6 +1,9 @@
 from django.conf.urls import url
-from ..views import AddressView
+
+from cms_people.views import ProfileAboutView
+from ..views import ProfileAddressView
 
 urlpatterns = [
-    url('^address$', AddressView.as_view(), name='Profile_address'),
+    url('^$', ProfileAboutView.as_view(), name='profile_about'),
+    url('^address$', ProfileAddressView.as_view(), name='profile_address'),
 ]

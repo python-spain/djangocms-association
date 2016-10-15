@@ -78,7 +78,7 @@ class AddressForm(ModelForm):
     city = ChoiceField(widget=CityWidget)
     subregion = ChoiceField(widget=SubregionWidget)
     region = ChoiceField(widget=RegionWidget)
-    country = CharField(disabled=True)
+    country = ChoiceField(disabled=True)
 
     class Meta:
         fields = ('street', 'city', 'subregion', 'region', 'custom_postal_code')
