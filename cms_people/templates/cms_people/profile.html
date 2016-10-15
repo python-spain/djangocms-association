@@ -2,12 +2,14 @@
 {% load sekizai_tags i18n static %}
 
 
+
 {% block sidebar_left %}
     <ul class="nav nav-pills nav-stacked">
-      <li class="active"><a href="{% url "profile_about" %}">{% trans "About me" %}</a></li>
-      <li><a href="{% url "profile_address" %}">{% trans "Address" %}</a></li>
-      <li><a href="#">Menu 2</a></li>
-      <li><a href="#">Menu 3</a></li>
+        {% for tab in tabs %}
+        <li{% if tab.tab == profile_tab %} class="active"{% endif %}>
+            <a href="{% url tab.url_name %}">{{ tab.name }}</a>
+         </li>
+        {% endfor %}
     </ul>
 {% endblock %}
 
