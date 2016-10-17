@@ -1,32 +1,39 @@
 {% extends "cms_people/profile.html" %}
 {% load sekizai_tags static bootstrap3 i18n %}
 
-{% block profile_page %}security{% endblock %}
-
 {% block form %}
-    <form class="form-horizontal">
-        {% trans "The current password is required to change the email or password." as help %}
-        {% bootstrap_alert help %}
-        {% bootstrap_field form.email layout='horizontal' %}
-        {% bootstrap_field form.change_password layout='horizontal' %}
-        {% bootstrap_field form.new_password layout='horizontal' %}
-        {% bootstrap_field form.repeat_new_password layout='horizontal' %}
-    </form>
-    <div class="form-inline">
-
-        <div class="form-group pull-right">
-            <div class="input-group">
-                <input type="password" class="form-control input-lg"
-                       placeholder="{% trans 'Current password' %}">
-                <div class="input-group-btn">
-                    <!-- Buttons -->
-                    <button class="btn btn-primary btn-lg" type="button">{% trans "Submit" %}</button>
+    <form method="post" action="{% url 'profile_security' %}">
+        {% csrf_token %}
+        <div class="form-horizontal">
+            {% trans "The current password is required to change the email or password." as help %}
+            {% bootstrap_alert help %}
+            {% bootstrap_form_errors form %}
+            {% bootstrap_field form.email layout='horizontal' %}
+            {% bootstrap_field form.change_password layout='horizontal' %}
+            {% bootstrap_field form.new_password layout='horizontal' %}
+            {% bootstrap_field form.repeat_new_password layout='horizontal' %}
+        </div>
+        <div class="form-inline submit-inline">
+            <div class="form-group pull-right{% if form.current_password.errors %} has-error{% endif %}">
+                <div class="input-group pull-right">
+                    <input type="password" class="form-control input-lg" id="{{ form.current_password.id_for_label }}"
+                           name="current_password"
+                           placeholder="{% trans 'Current password' %}">
+                    <div class="input-group-btn">
+                        <!-- Buttons -->
+                        <button class="btn btn-primary btn-lg" type="submit">{% trans "Submit" %}</button>
+                    </div>
                 </div>
+                {% if form.current_password.errors %}
+                <span class="help-block">
+                    {% for error in form.current_password.errors %}
+                        {{ error|escape }}
+                    {% endfor %}
+                </span>
+                {% endif %}
             </div>
         </div>
-    </div>
-
-
+    </form>
 
 {% endblock %}
 

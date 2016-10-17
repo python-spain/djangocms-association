@@ -50,6 +50,14 @@ class ProfileSecurityView(ProfileView):
     template_name = 'cms_people/security.html'
     form_class = SecurityForm
 
+    def get_success_url(self):
+        return reverse('profile_security')
+
+    def get_form_kwargs(self):
+        kwargs = super(ProfileSecurityView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
     def get_object(self, queryset=None):
         return self.request.user
 
