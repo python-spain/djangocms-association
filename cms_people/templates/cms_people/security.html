@@ -1,13 +1,33 @@
 {% extends "cms_people/profile.html" %}
-{% load sekizai_tags static bootstrap3 %}
+{% load sekizai_tags static bootstrap3 i18n %}
 
-{% block profile_page %}basic{% endblock %}
+{% block profile_page %}security{% endblock %}
 
 {% block form %}
     <form class="form-horizontal">
-        <img src="" class="img-circle">
-        {% bootstrap_form form layout='horizontal' %}
+        {% trans "The current password is required to change the email or password." as help %}
+        {% bootstrap_alert help %}
+        {% bootstrap_field form.email layout='horizontal' %}
+        {% bootstrap_field form.change_password layout='horizontal' %}
+        {% bootstrap_field form.new_password layout='horizontal' %}
+        {% bootstrap_field form.repeat_new_password layout='horizontal' %}
     </form>
+    <div class="form-inline">
+
+        <div class="form-group pull-right">
+            <div class="input-group">
+                <input type="password" class="form-control input-lg"
+                       placeholder="{% trans 'Current password' %}">
+                <div class="input-group-btn">
+                    <!-- Buttons -->
+                    <button class="btn btn-primary btn-lg" type="button">{% trans "Submit" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 {% endblock %}
 
 

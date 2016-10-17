@@ -5,6 +5,7 @@ from django.views.generic import UpdateView
 
 from cms_contact.forms import AddressForm
 from cms_contact.models import Address
+from cms_people.forms import SecurityForm
 from cms_people.models import Person
 
 from django.utils.translation import ugettext as _
@@ -47,7 +48,7 @@ class ProfileSecurityView(ProfileView):
     profile_tab = 'security'
     model = get_user_model()
     template_name = 'cms_people/security.html'
-    fields = ('email', 'password')
+    form_class = SecurityForm
 
     def get_object(self, queryset=None):
         return self.request.user
