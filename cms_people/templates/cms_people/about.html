@@ -3,8 +3,13 @@
 
 {% block form %}
     <form class="form-horizontal">
-        <img src="" class="img-circle">
+        <div class="avatar">
+            <div>
+                <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+            </div>
+        </div>
         {% bootstrap_form form layout='horizontal' %}
+        {% bootstrap_button "submit" button_class="col-md-offset-6 btn-primary" size="lg" %}
     </form>
 {% endblock %}
 

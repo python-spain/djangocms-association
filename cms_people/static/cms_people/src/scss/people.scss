@@ -1,3 +1,29 @@
+.avatar {
+
+    border: 1px solid #dddddd;
+    display: inline-block;
+    padding: 4px;
+    border-radius: 3px;
+
+    div {
+        width: 140px;
+        height: 140px;
+        border: 1px solid #c0c0c0;
+        background-color: #E5E6E4;
+
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+        .glyphicon {
+            color: #ffffff;
+            font-size: 80px;
+        }
+    }
+
+}
+
+
 #profile-security {
     .submit-inline {
         .help-block {
