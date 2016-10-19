@@ -36,7 +36,11 @@ class SecurityForm(ModelForm):
             raise ValidationError(_('Password do not match.'))
         return repeat_new_password
 
-
+    def save(self, commit=True):
+        if self.cleaned_data.get('change_password'):
+            new_password = self.cleaned_data['new_password']
+            self.instance.set_password(new_password)
+        super(SecurityForm, self).save()
 
 
     class Meta:
