@@ -1,15 +1,41 @@
 {% extends "cms_people/profile.html" %}
-{% load sekizai_tags static bootstrap3 %}
+{% load sekizai_tags static bootstrap3 i18n %}
 
 {% block form %}
-    <form class="form-horizontal">
-        <div class="avatar">
-            <div>
-                <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+    <form>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="avatar pull-right">
+                    <div>
+                        <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-18">
+                <h1 class="username">
+                    {{ view.request.user.username }}
+                    {% if view.request.user.is_staff %}
+                        <span class="label label-primary">{% trans "Staff" %}</span>
+                    {% endif %}
+                </h1>
+                <p>
+                    <span class="text-muted since">
+                    {% blocktrans with view.request.user.date_joined|timesince as since %}
+                        Joined {{ since }} ago
+                    {% endblocktrans %}
+                    </span>
+                </p>
             </div>
         </div>
-        {% bootstrap_form form layout='horizontal' %}
-        {% bootstrap_button "submit" button_class="col-md-offset-6 btn-primary" size="lg" %}
+
+        <div class="form-horizontal">
+            {% bootstrap_field form.first_name layout='horizontal' %}
+            {% bootstrap_field form.last_name layout='horizontal' %}
+            {% bootstrap_field form.interests layout='horizontal' %}
+            {% bootstrap_field form.bio layout='horizontal' %}
+            {{ form.avatar }}
+            {% bootstrap_button "submit" button_class="col-md-offset-6 btn-primary" size="lg" %}
+        </div>
     </form>
 {% endblock %}
 

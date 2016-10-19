@@ -5,7 +5,7 @@ from django.views.generic import UpdateView
 
 from cms_contact.forms import AddressForm
 from cms_contact.models import Address
-from cms_people.forms import SecurityForm
+from cms_people.forms import SecurityForm, AboutForm
 from cms_people.models import Person
 
 from django.utils.translation import ugettext as _
@@ -20,6 +20,12 @@ TABS = [
 
 class ProfileView(UpdateView):
     profile_tab = ''
+
+    def get_form_kwargs(self):
+        kwargs = super(ProfileView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
@@ -37,7 +43,13 @@ class ProfileAboutView(ProfileView):
     profile_tab = 'about'
     model = Person
     template_name = 'cms_people/about.html'
-    fields = ('interests', 'bio', 'avatar')
+    form_class = AboutForm
+
+    def get_initial(self):
+        initial = super(ProfileAboutView, self).get_initial()
+        initial['first_name'] = self.request.user.first_name
+        initial['last_name'] = self.request.user.last_name
+        return initial
 
     def get_object(self, queryset=None):
         # return getattr(self.request.user, 'person', None)
@@ -52,11 +64,6 @@ class ProfileSecurityView(ProfileView):
 
     def get_success_url(self):
         return reverse('profile_security')
-
-    def get_form_kwargs(self):
-        kwargs = super(ProfileSecurityView, self).get_form_kwargs()
-        kwargs['request'] = self.request
-        return kwargs
 
     def get_object(self, queryset=None):
         return self.request.user

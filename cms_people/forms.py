@@ -1,21 +1,35 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, ChoiceField, CharField
-from django.forms.fields import BooleanField
-from django.forms.widgets import CheckboxInput, PasswordInput
+from django.forms.fields import BooleanField, ImageField
+from django.forms.widgets import CheckboxInput, PasswordInput, HiddenInput
 
 from django.utils.translation import ugettext as _
 
+from cms_people.models import Person
 
-class SecurityForm(ModelForm):
+
+class BaseModelForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(BaseModelForm, self).__init__(*args, **kwargs)
+
+
+class AboutForm(BaseModelForm):
+    first_name = CharField()
+    last_name = CharField()
+
+    class Meta:
+        fields = ('first_name', 'last_name', 'interests', 'bio', 'avatar')
+        model = Person
+
+
+class SecurityForm(BaseModelForm):
     new_password = CharField(widget=PasswordInput, required=False)
     repeat_new_password = CharField(widget=PasswordInput, required=False)
     change_password = BooleanField(required=False)
     current_password = CharField(widget=PasswordInput, required=True)
-
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
-        super(SecurityForm, self).__init__(*args, **kwargs)
 
     def clean_current_password(self):
         current_password = self.cleaned_data.get('current_password', '')
