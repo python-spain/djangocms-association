@@ -37,7 +37,7 @@ class ProfileAboutView(ProfileView):
     profile_tab = 'about'
     model = Person
     template_name = 'cms_people/about.html'
-    fields = ('interests', 'bio')
+    fields = ('interests', 'bio', 'avatar')
 
     def get_object(self, queryset=None):
         # return getattr(self.request.user, 'person', None)
