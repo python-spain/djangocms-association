@@ -82,4 +82,15 @@ class ProfileAddressView(ProfileView):
         return kwargs
 
     def get_object(self, queryset=None):
-        return None
+        user = self.request.user
+        person = getattr(user, 'person', None)
+        if person and person.address:
+            return person.address
+        else:
+            return Address()
+
+    def form_valid(self, form):
+        person, exists = Person.objects.get_or_create(user=self.request.user)
+        super(ProfileAddressView, self).form_valid(form)
+        person.address = self.object
+        person.save()

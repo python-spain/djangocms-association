@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from taggit.managers import TaggableManager
 
-from cms_contact.models import GenericContactField, Address, AbstractContact
+from cms_contact.models import Address, AbstractContact
 from cms_people.models import Person
 
 
