@@ -76,5 +76,10 @@ class ProfileAddressView(ProfileView):
     template_name = 'cms_people/address.html'
     # fields = ('street', 'city')
 
+    def get_form_kwargs(self):
+        kwargs = super(ProfileAddressView, self).get_form_kwargs()
+        kwargs.pop('request', None)
+        return kwargs
+
     def get_object(self, queryset=None):
         return None
