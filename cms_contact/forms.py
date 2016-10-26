@@ -1,5 +1,6 @@
 from itertools import chain
 
+from django.utils import six
 from cities.models import City, Subregion, Region, Country
 from django.contrib.auth.models import User
 from django.db.models import When, Value, Case, IntegerField
@@ -106,22 +107,12 @@ class RegionWidget(AddressWidget):
 
 class CountryWidget(Select):
     def render(self, name, value, attrs=None, choices=()):
-        self.choices = ()
+        if not value:
+            self.choices = ()
+        else:
+            self.choices = [(x.pk, six.u(x)) for x in Country.objects.filter(pk=value)]
         attrs['readonly'] = 'readonly'
         return super(CountryWidget, self).render(name, value, attrs, ())
-
-
-class Select2ChoiceField(ModelChoiceField):
-    def _get_queryset(self):
-        return self._queryset
-
-    def _set_queryset(self, queryset):
-        self._queryset = queryset
-        if self.initial:
-            self.widget.choices = self.queryset.filter(pk=self.initial)
-
-    queryset = property(_get_queryset, _set_queryset)
-
 
 
 class AddressForm(ModelForm):
@@ -132,7 +123,18 @@ class AddressForm(ModelForm):
     # city = Select2ChoiceField(queryset=City.objects.all(), widget=CityWidget)
     # subregion = Select2ChoiceField(queryset=Subregion.objects.all(), widget=SubregionWidget)
     # region = Select2ChoiceField(queryset=Region.objects.all(), widget=RegionWidget)
-    country = Select2ChoiceField(queryset=Country.objects.all(), widget=CountryWidget)
+    country = ModelChoiceField(queryset=Country.objects.all(), widget=CountryWidget)
+
+    def __init__(self, **kwargs):
+        print(kwargs)
+        initial = kwargs.pop('initial', {})
+        country_field = None
+        if 'instance' in kwargs:
+            instance = kwargs['instance']
+            country_field = instance.region or instance.city
+        if country_field:
+            initial['country'] = country_field.country
+        super(AddressForm, self).__init__(initial=initial, **kwargs)
 
     class Meta:
         fields = ('street', 'city', 'subregion', 'region', 'country', 'custom_postal_code')

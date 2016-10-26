@@ -76,6 +76,9 @@ class ProfileAddressView(ProfileView):
     template_name = 'cms_people/address.html'
     # fields = ('street', 'city')
 
+    def get_success_url(self):
+        return reverse('profile_address')
+
     def get_form_kwargs(self):
         kwargs = super(ProfileAddressView, self).get_form_kwargs()
         kwargs.pop('request', None)
@@ -91,6 +94,7 @@ class ProfileAddressView(ProfileView):
 
     def form_valid(self, form):
         person, exists = Person.objects.get_or_create(user=self.request.user)
-        super(ProfileAddressView, self).form_valid(form)
+        response = super(ProfileAddressView, self).form_valid(form)
         person.address = self.object
         person.save()
+        return response
