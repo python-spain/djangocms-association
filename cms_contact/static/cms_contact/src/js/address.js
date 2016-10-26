@@ -79,8 +79,12 @@ $(function () {
     $('#id_city').on('select2:select', function () {
         $.post(dataType, {city: $('#id_city').val()}, function(data){
             $.each(data, function(key, value){
-                $('#id_' + key.toLowerCase()).append('<option value="' + value.id +
-                                                     '" selected="selected">' + value.name + '</option>')
+                if(!value){
+                    return
+                }
+                var $select = $('#id_' + key.toLowerCase());
+                $select.append('<option value="' + value.id +
+                                                     '" selected="selected">' + value.name + '</option>');
             });
         });
     });

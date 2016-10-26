@@ -10,13 +10,14 @@
 {% block form %}
     <form class="form-horizontal" action="{% url 'profile_address' %}" method="post">
         <h2 class="col-md-offset-6">Address</h2>
+        {% csrf_token %}
         {% bootstrap_form_errors form %}
         {% bootstrap_field form.street layout='horizontal' %}
         {% bootstrap_field form.city layout='horizontal' %}
         {% bootstrap_field form.subregion layout='horizontal' %}
         {% bootstrap_field form.region layout='horizontal' %}
-            {% bootstrap_field form.custom_postal_code layout='horizontal' form_group_class='col-md-12' label_class='col-md-12' field_class='col-md-12' %}
-            {% bootstrap_field form.country layout='horizontal' form_group_class='col-md-12' %}
+        {% bootstrap_field form.custom_postal_code layout='horizontal' form_group_class='col-md-12' label_class='col-md-12' field_class='col-md-12' %}
+        {% bootstrap_field form.country layout='horizontal' form_group_class='col-md-12' %}
         {% bootstrap_button "submit" button_class="col-md-offset-6 btn-primary" size="lg" %}
     </form>
 {% endblock %}
