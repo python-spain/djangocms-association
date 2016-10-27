@@ -2,7 +2,7 @@
 {% load sekizai_tags static bootstrap3 i18n formset_tags %}
 
 {% block form %}
-    <form action="{% url 'profile_about' %}" method="post">
+    <form action="{% url 'profile_about' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
             <div class="col-md-6">
@@ -34,7 +34,7 @@
             {% bootstrap_field form.last_name layout='horizontal' %}
             {% bootstrap_field form.interests layout='horizontal' %}
             {% bootstrap_field form.bio layout='horizontal' %}
-            {{ form.avatar }}
+            <div class="hidden">{{ form.avatar }}</div>
         </div>
         <div id="formset" data-formset-prefix="{{ formset.prefix }}" class="form-inline">
             {{ formset.management_form }}
