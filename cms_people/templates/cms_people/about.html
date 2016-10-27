@@ -7,8 +7,10 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="avatar pull-right">
-                    <div>
-                        <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+                    <div{% if object.avatar %}
+                        style="background-image: url('{{ object.avatar.url }}');"{% endif %}>
+                        <span class="glyphicon glyphicon-camera{% if object.avatar %} hidden{% endif %}"
+                              aria-hidden="true"></span>
                     </div>
                 </div>
             </div>
