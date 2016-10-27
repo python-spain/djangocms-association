@@ -26,7 +26,16 @@ $formset.formset({
     animateForms: false
 });
 
+function formatState (state) {
+  if (!state.id) { return state.text; }
+  var $state = $(
+    '<span><img src="' + STATIC_URL + '/cms_contact/src/img/' + state.element.value.toLowerCase() + '.png" class="img-flag"' +
+    ' /> ' + state.text + '</span>'
+  );
+  return $state;
+};
+
 $.each($formset.find('[name$="type"]'), function(key, select) {
     var $select = $(select);
-    $select.select2();
+    $select.select2({theme: "bootstrap", templateResult: formatState});
 });

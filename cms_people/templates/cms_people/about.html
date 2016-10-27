@@ -78,6 +78,7 @@
 {% block bs3_theme_css %}
     {{ block.super }}
     <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'pywebes/src/libs/select2-bootstrap-theme/dist/select2-bootstrap.css' %}">
 {% endblock %}
 
 {% block bs3_theme_js %}
@@ -85,5 +86,8 @@
     {{ form.media.js }}
     <script type="text/javascript" src="{% static 'pywebes/src/libs/select2/dist/js/select2.js' %}"></script>
     <script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
+    <script>
+        STATIC_URL = '{{ STATIC_URL }}';
+    </script>
     <script type="text/javascript" src="{% static 'cms_people/src/js/about.js' %}"></script>
 {% endblock %}
