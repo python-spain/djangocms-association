@@ -19,3 +19,14 @@ function readURL(input) {
 $("#id_avatar").change(function(){
     readURL(this);
 });
+
+var $formset = $("#formset");
+
+$formset.formset({
+    animateForms: false
+});
+
+$.each($formset.find('[name$="type"]'), function(key, select) {
+    var $select = $(select);
+    $select.select2();
+});

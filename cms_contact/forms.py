@@ -5,15 +5,17 @@ from cities.models import City, Subregion, Region, Country
 from django.contrib.auth.models import User
 from django.db.models import When, Value, Case, IntegerField
 from django.forms import ModelForm, ChoiceField, CharField, ModelChoiceField
-from django.forms.models import ModelChoiceIterator
+from django.forms.models import ModelChoiceIterator, modelformset_factory
 from django.forms.widgets import Input, Select
 from django.utils.encoding import force_text
 from django_select2.forms import  ModelSelect2Widget
 
-from cms_contact.models import Address
-
+from cms_contact.models import Address, GenericContactField
 
 MAIN_COUNTRY = 'ES'
+
+
+GenericContactFieldFormSet = modelformset_factory(GenericContactField, fields=('type', 'value'), can_delete=True)
 
 
 def main_country_priority(queryset, country_field='country'):

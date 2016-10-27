@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseForbidden
 from django.views.generic import UpdateView
 
-from cms_contact.forms import AddressForm
+from cms_contact.forms import AddressForm, GenericContactFieldFormSet
 from cms_contact.models import Address
 from cms_people.forms import SecurityForm, AboutForm
 from cms_people.models import Person
@@ -44,6 +44,11 @@ class ProfileAboutView(ProfileView):
     model = Person
     template_name = 'cms_people/about.html'
     form_class = AboutForm
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileAboutView, self).get_context_data(**kwargs)
+        context['formset'] = GenericContactFieldFormSet()
+        return context
 
     def get_initial(self):
         initial = super(ProfileAboutView, self).get_initial()
