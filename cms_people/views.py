@@ -57,8 +57,18 @@ class ProfileAboutView(ProfileView):
         return initial
 
     def get_object(self, queryset=None):
-        # return getattr(self.request.user, 'person', None)
-        return None
+        person, exists = Person.objects.get_or_create(user=self.request.user)
+        return person
+
+    def get_success_url(self):
+        return reverse('profile_about')
+
+    def form_valid(self, form):
+        response = super(ProfileAboutView, self).form_valid(form)
+        self.object.user.first_name = form.cleaned_data['first_name']
+        self.object.user.last_name = form.cleaned_data['last_name']
+        self.object.user.save()
+        return response
 
 
 class ProfileSecurityView(ProfileView):
