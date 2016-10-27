@@ -5,6 +5,7 @@ from django.forms.fields import BooleanField, ImageField
 from django.forms.widgets import CheckboxInput, PasswordInput, HiddenInput
 
 from django.utils.translation import ugettext as _
+from taggit.managers import TaggableManager
 
 from cms_people.models import Person
 

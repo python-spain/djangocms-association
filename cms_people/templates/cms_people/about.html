@@ -2,7 +2,8 @@
 {% load sekizai_tags static bootstrap3 i18n formset_tags %}
 
 {% block form %}
-    <form>
+    <form action="{% url 'profile_about' %}" method="post">
+        {% csrf_token %}
         <div class="row">
             <div class="col-md-6">
                 <div class="avatar pull-right">

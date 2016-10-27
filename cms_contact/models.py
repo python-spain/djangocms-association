@@ -107,7 +107,7 @@ class Address(AbstractAddress):
 
 class AbstractContact(models.Model):
     address = models.OneToOneField(Address, verbose_name=_('Address'), blank=True, null=True, on_delete=models.SET_NULL)
-    interests = TaggableManager(verbose_name=_('Interests'))
+    interests = TaggableManager(verbose_name=_('Interests'), blank=True)
     fields = GenericRelation(GenericContactField, verbose_name=_('Fields'))
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)

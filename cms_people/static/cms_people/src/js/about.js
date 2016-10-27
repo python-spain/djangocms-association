@@ -26,6 +26,16 @@ $formset.formset({
     animateForms: false
 });
 
+$formset.on('formAdded', function (ev) {
+    formSelect2(ev.target);
+});
+
+function formSelect2(form){
+    var select = $(form).find('[name$="type"]');
+    var $select = $(select);
+    $select.select2({theme: "bootstrap", templateResult: formatState, templateSelection: formatState});
+}
+
 function formatState (state) {
   if (!state.id) { return state.text; }
   var $state = $(
@@ -33,9 +43,4 @@ function formatState (state) {
     ' /> ' + state.text + '</span>'
   );
   return $state;
-};
-
-$.each($formset.find('[name$="type"]'), function(key, select) {
-    var $select = $(select);
-    $select.select2({theme: "bootstrap", templateResult: formatState});
-});
+}
