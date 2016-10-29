@@ -45,6 +45,7 @@
                 <!-- New forms will be inserted in here -->
                 {% for form in formset %}
                     <div data-formset-form>
+                        {% bootstrap_field form.id layout='inline' %}
                         {% bootstrap_field form.type layout='inline' %}
                         {% bootstrap_field form.value layout='inline' %}
                         {% bootstrap_field form.DELETE layout='inline' %}
@@ -58,7 +59,7 @@
             any scripts -->
             <script type="form-template" data-formset-empty-form>
                 {% escapescript %}
-                    <div data-formset-form>
+                    <div data-formset-form>}
                         {% bootstrap_field formset.empty_form.type layout='inline' %}
                         {% bootstrap_field formset.empty_form.value layout='inline' %}
                         {% bootstrap_field formset.empty_form.DELETE layout='inline' %}

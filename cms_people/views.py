@@ -26,7 +26,6 @@ class ProfileView(UpdateView):
         kwargs['request'] = self.request
         return kwargs
 
-
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
         context['profile_tab'] = self.profile_tab

@@ -7,6 +7,7 @@ from django.forms.widgets import CheckboxInput, PasswordInput, HiddenInput
 from django.utils.translation import ugettext as _
 from taggit.managers import TaggableManager
 
+from cms_contact.forms import GenericContactFieldFormSet
 from cms_people.models import Person
 
 
@@ -20,6 +21,23 @@ class BaseModelForm(ModelForm):
 class AboutForm(BaseModelForm):
     first_name = CharField()
     last_name = CharField()
+
+    def __init__(self, *args, **kwargs):
+        super(AboutForm, self).__init__(*args, **kwargs)
+        self.contact_social_formset = GenericContactFieldFormSet(self.data)
+
+    def is_valid(self):
+        return super(AboutForm, self).is_valid() and self.contact_social_formset.is_valid()
+
+    def save(self, commit=True):
+        # TODO: es necesario poner por cada social form el person correspondiente, bien aquí
+        # o mejor después del save de person, pero sólo si es commit=True
+        person = super(AboutForm, self).save(commit)
+        if commit:
+            for form in self.contact_social_formset:
+                form.instance.content_object = person
+            self.contact_social_formset.save(commit)
+        return person
 
     class Meta:
         fields = ('first_name', 'last_name', 'interests', 'bio', 'avatar')
