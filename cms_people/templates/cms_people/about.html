@@ -48,8 +48,9 @@
                         {% bootstrap_field form.id layout='inline' %}
                         {% bootstrap_field form.type layout='inline' %}
                         {% bootstrap_field form.value layout='inline' %}
-                        {% bootstrap_field form.DELETE layout='inline' %}
-                        <button type="button" data-formset-delete-button>Delete form</button>
+                        <div class="hidden">{{ form.DELETE }}</div>
+                        <span class="glyphicon glyphicon-remove text-danger delete"
+                              data-formset-delete-button></span>
                     </div>
                 {% endfor %}
             </div>
@@ -59,17 +60,15 @@
             any scripts -->
             <script type="form-template" data-formset-empty-form>
                 {% escapescript %}
-                    <div data-formset-form>}
+                    <div data-formset-form>
                         {% bootstrap_field formset.empty_form.type layout='inline' %}
                         {% bootstrap_field formset.empty_form.value layout='inline' %}
-                        {% bootstrap_field formset.empty_form.DELETE layout='inline' %}
-                        <button type="button" data-formset-delete-button>Delete form</button>
+                        <div class="hidden">{{ formset.empty_form.DELETE }}</div>
+                        <span class="glyphicon glyphicon-remove text-danger delete"
+                              data-formset-delete-button></span>
                     </div>
                 {% endescapescript %}
             </script>
-
-            <!-- This button will add a new form when clicked -->
-            <input type="button" value="Add another" data-formset-add>
         </div>
 
 

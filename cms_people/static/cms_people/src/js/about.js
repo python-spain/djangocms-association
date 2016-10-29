@@ -16,6 +16,7 @@ function readURL(input) {
     }
 }
 
+
 $("#id_avatar").change(function(){
     readURL(this);
 });
@@ -24,6 +25,24 @@ var $formset = $("#formset");
 
 $formset.formset({
     animateForms: false
+});
+
+formset = $formset.formset('getOrCreate');
+
+$formset.on('change', function(){
+    // Add a empty
+    var hasEmpty = false;
+    $.each(formset.$forms(), function(i, form){
+        if($(form).is('[data-formset-form-deleted]')){
+            return
+        }
+        if(!$('select', form).val() && !$('input[type=text]', form).val()){
+            hasEmpty = true;
+        }
+    });
+    if(!hasEmpty){
+        formset.addForm();
+    }
 });
 
 $formset.on('formAdded', function (ev) {
