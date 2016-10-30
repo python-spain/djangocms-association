@@ -1,0 +1,14 @@
+{% extends "cms_people/profile.html" %}
+{% load sekizai_tags static bootstrap3 i18n %}
+
+{% block form %}
+    <form method="post" action="{% url 'profile_privacy' %}">
+        {% csrf_token %}
+        <div class="form-horizontal">
+            <h2 class="col-md-offset-6">{% trans "Privacy" %}</h2>
+            {% bootstrap_form_errors form %}
+            {% bootstrap_form form layout='horizontal' %}
+            {% bootstrap_button "submit" button_class="col-md-offset-6 btn-primary" size="lg" %}
+        </div>
+    </form>
+{% endblock %}

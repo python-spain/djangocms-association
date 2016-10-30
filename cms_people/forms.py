@@ -79,3 +79,10 @@ class SecurityForm(BaseModelForm):
     class Meta:
         fields = ('email', 'change_password', 'new_password', 'repeat_new_password')
         model = get_user_model()
+
+
+class PrivacyForm(BaseModelForm):
+    class Meta:
+        fields = ('real_name_privacy', 'address_privacy', 'bio_privacy', 'email_privacy',
+                  'telephones_privacy')
+        model = Person

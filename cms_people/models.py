@@ -47,7 +47,7 @@ class Person(AbstractContact):
                                      default='ONLYMEMBERS')
     telephones_privacy = models.CharField(max_length=20, verbose_name=_('Telephones privacy'),
                                           choices=TELEPHONES_PRIVACY,
-                                          default='ONLYMEMBERS')
+                                          default='HIDDEN')
     # Newsletters
     news = models.BooleanField(default=True, verbose_name=_('News'))
     nearby_new_members = models.BooleanField(default=True, verbose_name=_('Nearby new members'))
