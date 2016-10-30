@@ -16,6 +16,16 @@
                         <span class="label label-default">{{ interest }}</span>
                     {% endfor %}
                 </div>
+                <address>
+                    <strong>
+                        {% blocktrans with username=object.user.username %}
+                            {{ username }} address
+                        {% endblocktrans %}
+                    </strong><br>
+                    {{ object.address.street }}<br>
+                    {{ object.address.subregion }}, {{ object.address.region }}<br>
+                    {{ object.address.custom_postal_code }} {{ object.address.get_country }}
+                </address>
             </div>
             <div class="col-md-7">
                 <div class="panel panel-primary">

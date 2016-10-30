@@ -28,6 +28,15 @@ class AbstractAddress(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def get_country(self):
+        for item in [self.city, self.subregion, self.region]:
+            if not item:
+                continue
+            if hasattr(item, 'region'):
+                return item.region.country
+            return item.country
+
+
     def clean(self):
         if not self.city and not self.custom_city:
             raise ValidationError(_('You must provide a city or a custom city'))
