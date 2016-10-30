@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
-from cms_people.views import ProfileAboutView, ProfileSecurityView, ProfilePrivacyView
-from ..views import ProfileAddressView
+from cms_people.views.profile import ProfileAboutView, ProfileSecurityView, ProfilePrivacyView
+from ..views.profile import ProfileAddressView
 
 urlpatterns = [
     url('^$', ProfileAboutView.as_view(), name='profile_about'),

@@ -1,0 +1,11 @@
+{% extends "cms_people/base.html" %}
+{% load static %}
+
+{% block main %}
+    {% include "cms_people/card.html" with include_real_name=True %}
+{% endblock %}
+
+{% block bs3_theme_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'cms_people/src/css/person.css' %}">
+{% endblock %}

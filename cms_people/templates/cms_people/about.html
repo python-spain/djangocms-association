@@ -4,32 +4,7 @@
 {% block form %}
     <form action="{% url 'profile_about' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="row card">
-            <div class="col-md-6">
-                <div class="avatar pull-right">
-                    <div{% if object.avatar %}
-                        style="background-image: url('{{ object.avatar.url }}');"{% endif %}>
-                        <span class="glyphicon glyphicon-camera{% if object.avatar %} hidden{% endif %}"
-                              aria-hidden="true"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-18">
-                <h1 class="username">
-                    {{ view.request.user.username }}
-                    {% if view.request.user.is_staff %}
-                        <span class="label label-primary">{% trans "Staff" %}</span>
-                    {% endif %}
-                </h1>
-                <p>
-                    <span class="text-muted since">
-                    {% blocktrans with view.request.user.date_joined|timesince as since %}
-                        Joined {{ since }} ago
-                    {% endblocktrans %}
-                    </span>
-                </p>
-            </div>
-        </div>
+        {% include "cms_people/card.html" %}
 
         <div class="form-horizontal">
             {% bootstrap_field form.first_name layout='horizontal' %}

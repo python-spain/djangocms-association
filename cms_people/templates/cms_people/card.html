@@ -1,0 +1,33 @@
+{% load i18n %}
+<div class="row card">
+    <div class="col-md-6">
+        <div class="avatar pull-right">
+            <div{% if object.avatar %}
+                style="background-image: url('{{ object.avatar.url }}');"{% endif %}>
+                        <span class="glyphicon glyphicon-camera{% if object.avatar %} hidden{% endif %}"
+                              aria-hidden="true"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-18">
+        <h1 class="username">
+            {{ view.request.user.username }}
+            {% if view.request.user.is_staff %}
+                <span class="label label-primary">{% trans "Staff" %}</span>
+            {% endif %}
+        </h1>
+        {% if include_real_name %}
+        <p>
+            <span class="first_name" title="{% trans "First name" %}">{{ object.user.first_name }}</span>
+            <span class="last_name" title="{% trans "Last name" %}">{{ object.user.last_name }}</span>
+        </p>
+        {% endif %}
+        <p>
+            <span class="text-muted since">
+            {% blocktrans with view.request.user.date_joined|timesince as since %}
+                Joined {{ since }} ago
+            {% endblocktrans %}
+            </span>
+        </p>
+    </div>
+</div>
