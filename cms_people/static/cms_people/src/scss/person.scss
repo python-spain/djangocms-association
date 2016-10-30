@@ -4,3 +4,11 @@ $cursor-avatar: auto;
 .interests {
     font-size: 180%;
 }
+
+.social-contact {
+    li * {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        vertical-align: middle;
+    }
+}

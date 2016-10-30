@@ -2,6 +2,7 @@ from cities.models import District, City, Subregion, Region
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.db.models import PointField
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -50,6 +51,9 @@ class AbstractContactField(models.Model):
     def to_html(self):
         fn = SOCIAL[self.type].get('to_html', lambda x: x)
         return fn(self.value)
+
+    def icon_path(self):
+        return static('cms_contact/src/img/{}.png'.format(self.type.lower()))
 
     class Meta:
         abstract = True

@@ -1,23 +1,40 @@
 {% extends "cms_people/base.html" %}
-{% load static %}
+{% load static i18n %}
 
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="col-md-14 col-sm-offset-2">
                 {% include "cms_people/card.html" with include_real_name=True left_col_class="col-md-6" right_col_class="col-md-18" %}
-                <div class="bio">{{ object.bio }}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-13 col-sm-offset-2">
+                <div class="bio text-justify">{{ object.bio }}</div>
                 <div class="interests">
                     {% for interest in object.interests.all %}
                         <span class="label label-default">{{ interest }}</span>
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-md-6">
-                {% for field in object.fields.all %}
-                    {{ field.type }}
-                    {{ field.to_html }}
-                {% endfor %}
+            <div class="col-md-7">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{% trans "Social & contact" %}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-unstyled social-contact">
+                            {% for field in object.fields.all %}
+                                <li>
+                                    <img src="{{ field.icon_path }}" />
+                                    <strong>{{ field.type.title }}:</strong>
+                                    {{ field.to_html }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
