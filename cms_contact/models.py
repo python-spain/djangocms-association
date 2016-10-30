@@ -3,55 +3,11 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.db.models import PointField
 from django.core.exceptions import ValidationError
-from django.core.validators import URLValidator, EmailValidator
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from phonenumber_field.validators import validate_international_phonenumber
 from taggit.managers import TaggableManager
 
-CONTACT_FIELD_TYPES = [
-    (
-        _('VCS'),
-        (
-            ('GITHUB', _('Github')),
-            ('BITBUCKET', _('Bitbucket')),
-            ('GITLAB', _('Gitlab')),
-        ),
-    ),
-    (
-        _('Social'),
-        (
-            ('TWITTER', _('Twitter')),
-            ('FACEBOOK', _('Facebook')),
-            ('GOOGLE-PLUS', _('Google+')),
-            ('LINKEDIN', _('LinkedIn')),
-            ('PINTEREST', _('Pinterest')),
-            ('TUMBLR', _('Tumblr')),
-            ('WEBSITE', _('Website'), {'validator': URLValidator}),
-        ),
-    ),
-    (
-        _('Communication'),
-        (
-            ('TELEPHONE', 'Telephone', {'validator': validate_international_phonenumber}),
-            ('MOBILE', 'Mobile', {'validator': validate_international_phonenumber}),
-            ('WHATSAPP', 'WhatsApp', {'validator': validate_international_phonenumber}),
-            ('TELEGRAM', 'Telegram'),
-            ('SKYPE', 'Skype'),
-            ('FMESSENGER', 'Facebook Messenger'),
-            ('LINE', 'Line'),
-            ('IRC', 'IRC'),
-            ('JABBER', 'Jabber/XMPP', {'validator': EmailValidator}),
-        ),
-    ),
-]
-
-
-def remove_social_options(sections):
-    """Remove additional options in SOCIAL_TYPES
-    """
-    for section in sections:
-        yield section[0], [choice[:2] for choice in section[1]]
+from cms_contact.contact_social import CONTACT_FIELD_TYPES, remove_social_options, SOCIAL
 
 
 class AbstractAddress(models.Model):
@@ -90,6 +46,10 @@ class AbstractContactField(models.Model):
     value = models.CharField(max_length=150, verbose_name=_('Value'))
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def to_html(self):
+        fn = SOCIAL[self.type].get('to_html', lambda x: x)
+        return fn(self.value)
 
     class Meta:
         abstract = True

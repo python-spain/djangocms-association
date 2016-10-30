@@ -1,5 +1,19 @@
 $cursor-avatar: pointer !default;
 
+.include-real-name {
+    h1 {
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+
+    .real-name {
+        margin-top: 0;
+        span {
+            font-size: 130%;
+        }
+    }
+}
+
 .card {
     padding-bottom: 20px;
 

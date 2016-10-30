@@ -1,8 +1,26 @@
 {% extends "cms_people/base.html" %}
 {% load static %}
 
-{% block main %}
-    {% include "cms_people/card.html" with include_real_name=True %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-14 col-sm-offset-2">
+                {% include "cms_people/card.html" with include_real_name=True left_col_class="col-md-6" right_col_class="col-md-18" %}
+                <div class="bio">{{ object.bio }}</div>
+                <div class="interests">
+                    {% for interest in object.interests.all %}
+                        <span class="label label-default">{{ interest }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                {% for field in object.fields.all %}
+                    {{ field.type }}
+                    {{ field.to_html }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block bs3_theme_css %}
