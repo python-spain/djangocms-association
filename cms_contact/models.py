@@ -5,6 +5,8 @@ from django.contrib.gis.db.models import PointField
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from taggit.managers import TaggableManager
 
@@ -36,7 +38,6 @@ class AbstractAddress(models.Model):
                 return item.region.country
             return item.country
 
-
     def clean(self):
         if not self.city and not self.custom_city:
             raise ValidationError(_('You must provide a city or a custom city'))
@@ -58,11 +59,14 @@ class AbstractContactField(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def to_html(self):
-        fn = SOCIAL[self.type].get('to_html', lambda x: x)
+        fn = SOCIAL[self.type].get('to_html', lambda x: mark_safe('<span>{}</span>'.format(escape(x))))
         return fn(self.value)
 
     def icon_path(self):
         return static('cms_contact/src/img/{}.png'.format(self.type.lower()))
+
+    def is_telephone(self):
+        return SOCIAL[self.type].get('is_telephone', False)
 
     class Meta:
         abstract = True

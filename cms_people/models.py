@@ -30,6 +30,12 @@ def avatar_path(instance, filename):
     return 'avatars/{}.{}'.format(instance.user.id, ext)
 
 
+def privacy_validation(privacy, request):
+    if privacy == 'VISIBLE' or privacy == 'ONLYMEMBERS' and request.user.is_authenticated():
+        return True
+    return False
+
+
 class Person(AbstractContact):
     """A person corresponds to a Django user.
     It includes additional fields and privacy policies.
@@ -54,6 +60,18 @@ class Person(AbstractContact):
     nearby_new_associations = models.BooleanField(default=True, verbose_name=_('Nearby new associations'))
     nearby_new_jobs = models.BooleanField(default=False, verbose_name=_('Nearby new jobs'))
     nearby_new_events = models.BooleanField(default=True, verbose_name=_('Nearby new events'))
+
+    def get_real_name_privacy(self, request):
+        return privacy_validation(self.real_name_privacy, request)
+
+    def get_bio_privacy(self, request):
+        return privacy_validation(self.bio_privacy, request)
+
+    def get_email_privacy(self, request):
+        return privacy_validation(self.email_privacy, request)
+
+    def get_telephones_privacy(self, request):
+        return privacy_validation(self.telephones_privacy, request)
 
     def save(self, **kwargs):
         if self.pk:

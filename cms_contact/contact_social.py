@@ -77,9 +77,9 @@ CONTACT_FIELD_TYPES = [
     (
         _('Communication'),
         (
-            ('TELEPHONE', _('Telephone'), {'validator': validate_international_phonenumber}),
-            ('MOBILE', _('Mobile'), {'validator': validate_international_phonenumber}),
-            ('WHATSAPP', _('WhatsApp'), {'validator': validate_international_phonenumber}),
+            ('TELEPHONE', _('Telephone'), {'validator': validate_international_phonenumber, 'is_telephone': True}),
+            ('MOBILE', _('Mobile'), {'validator': validate_international_phonenumber, 'is_telephone': True}),
+            ('WHATSAPP', _('WhatsApp'), {'validator': validate_international_phonenumber, 'is_telephone': True}),
             ('TELEGRAM', _('Telegram'), {'validator': multi_lang_common_validator,
                                          'to_html': Href('https://telegram.me/{}', '@{}')}),
             ('SKYPE', _('Skype'), {'validator': multi_lang_common_validator, 'to_html': Href('skype:{}?call')}),
