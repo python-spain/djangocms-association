@@ -1,0 +1,23 @@
+{% extends "cms_people/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div id="people">
+        <div id="mapid"></div>
+    </div>
+{% endblock %}
+
+
+{% block bs3_theme_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'cms_contact/src/libs/leaflet/dist/leaflet.css' %}">
+    <link rel="stylesheet" href="{% static 'cms_people/src/css/people.css' %}">
+{% endblock %}
+
+
+{% block bs3_theme_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'cms_contact/src/libs/leaflet/dist/leaflet-src.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cms_people/src/js/people.js' %}"></script>
+
+{% endblock %}

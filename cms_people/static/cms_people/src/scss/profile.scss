@@ -1,0 +1,46 @@
+#profile-about, #profile-security, #profile-privacy {
+    padding-top: 40px;
+}
+
+#profile-about .btn-primary, #profile-address .btn-primary, #profile-privacy .btn-primary {
+    margin-top: 30px;
+    border-radius: 3px;
+}
+
+#profile-about {
+    @import "card";
+
+    #id_avatar {
+        // Real input to hide
+        display: none;
+    }
+
+    // Coms & Social
+    [data-formset-form] {
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
+
+    [data-formset-form-deleted] {
+        display: none;
+    }
+
+    .delete {
+        cursor: pointer;
+    }
+}
+
+#profile-security {
+    .submit-inline {
+        .help-block {
+            clear: both;
+        }
+    }
+}
+
+#profile-address {
+    .horizontal-inline > div {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}

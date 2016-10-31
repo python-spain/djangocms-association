@@ -23,6 +23,7 @@
     "tests"
   ],
   "dependencies": {
-    "leaflet": "^1.0.1"
+    "leaflet": "^1.0.1",
+    "leaflet.markercluster": "Leaflet.markercluster#^1.0.0"
   }
 }

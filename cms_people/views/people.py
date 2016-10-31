@@ -1,7 +1,12 @@
 from django.shortcuts import get_object_or_404
+from django.views.generic.base import TemplateView
 
 from cms_people.models import Person
 from django.views.generic.detail import DetailView
+
+
+class PeopleView(TemplateView):
+    template_name = 'cms_people/people.html'
 
 
 class PersonView(DetailView):
