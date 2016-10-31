@@ -1,0 +1,28 @@
+{
+  "name": "djangocms-association",
+  "homepage": "https://github.com/python-spain/djangocms-association",
+  "authors": [
+    "Nekmo <contacto@nekmo.com>"
+  ],
+  "description": "Django CMS Web Assets",
+  "main": "",
+  "moduleType": [],
+  "keywords": [
+    "python",
+    "spain",
+    "association"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "cms_contact/static/cms_contact/src/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "leaflet": "^1.0.1"
+  }
+}
