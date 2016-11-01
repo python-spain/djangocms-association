@@ -77,6 +77,9 @@ class AbstractAddress(models.Model):
         elif not self.custom_postal_code and self.custom_city:
             raise ValidationError(_('You must provide a postal code if you use a custom city'))
 
+    def __str__(self):
+        return self.full_address()
+
     class Meta:
         abstract = True
 

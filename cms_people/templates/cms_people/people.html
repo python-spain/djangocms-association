@@ -34,7 +34,6 @@
         MAP_ZOOM = {{ MAP_ZOOM|escapejs }};
         RESULTS_URL = "{% url 'people:people_map_result' %}";
         elements = {{ elements|safe }};
-        elements = {'42.93333,-9.16667': [1,2,3,4,5,6]};
     </script>
     <script type="text/javascript" src="{% static 'cms_contact/src/libs/mobile-detect/mobile-detect.js' %}"></script>
     <script type="text/javascript" src="{% static 'cms_contact/src/libs/lodash/dist/lodash.min.js' %}"></script>
