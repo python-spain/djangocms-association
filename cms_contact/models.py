@@ -49,7 +49,7 @@ class AbstractAddress(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def get_country(self):
-        for item in [self.city, self.subregion, self.region]:
+        for item in [self.city, self.subregion, self.region if self.region_id else None]:
             if not item:
                 continue
             if hasattr(item, 'region'):
@@ -62,13 +62,13 @@ class AbstractAddress(models.Model):
 
     def full_address(self, privacy='COMPLETE', exclude=()):
         fields = [x for x in ADDRESS_PRIVACY_FIELDS[privacy] if x not in exclude]
-        fields = map(lambda x: str(getattr(self, x)), fields)
+        fields = map(lambda x: str(getattr(self, x, None)), fields)
         fields = list(filter(lambda x: x, fields))
         return ' '.join(fields)
 
     @cached_property
     def city_name(self):
-        return self.custom_city or self.city.name
+        return self.custom_city or (self.city.name if self.city else None)
 
     def clean(self):
         if not self.city and not self.custom_city:

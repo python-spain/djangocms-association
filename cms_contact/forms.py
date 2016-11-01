@@ -133,9 +133,7 @@ class AddressForm(ModelForm):
         country_field = None
         if 'instance' in kwargs:
             instance = kwargs['instance']
-            country_field = instance.region or instance.city
-        if country_field:
-            initial['country'] = country_field.country
+            initial['country'] = instance.get_country()
         super(AddressForm, self).__init__(initial=initial, **kwargs)
 
     class Meta:
