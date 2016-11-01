@@ -1,3 +1,6 @@
+from collections import defaultdict
+
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
 
@@ -5,8 +8,39 @@ from cms_people.models import Person
 from django.views.generic.detail import DetailView
 
 
+def get_coords(element, privacy=False):
+    if privacy and element.address_privacy == 'ONLYREGION':
+        place = element.address.region
+    else:
+        place = element.address.city or element.address.region
+    if not place or (privacy and element.address_privacy == 'HIDDEN'):
+        return
+    return place.location.coords
+
+
+def group_by_coord(elements, value_fn=lambda x: x, key_fn=lambda x: x):
+    data = defaultdict(list)
+    for element in elements:
+        coords = get_coords(element)
+        coords = key_fn(coords)
+        data[coords].append(value_fn(element))
+    return data
+
+
 class PeopleView(TemplateView):
     template_name = 'cms_people/people.html'
+
+    def get_elements(self):
+        return Person.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(PeopleView, self).get_context_data(**kwargs)
+        context['MAP_COORDS'] = settings.MAP_COORDS
+        context['MAP_ZOOM'] = settings.MAP_ZOOM
+        context['elements'] = dict(group_by_coord(self.get_elements(),
+                                                  lambda x: x.pk,
+                                                  lambda x: ','.join(map(str, reversed(x)))))
+        return context
 
 
 class PersonView(DetailView):

@@ -11,13 +11,22 @@
 {% block bs3_theme_css %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'cms_contact/src/libs/leaflet/dist/leaflet.css' %}">
+    <link rel="stylesheet" href="{% static 'cms_contact/src/libs/leaflet.markercluster/dist/MarkerCluster.css' %}">
+    <link rel="stylesheet" href="{% static 'cms_contact/src/libs/leaflet.markercluster/dist/MarkerCluster.Default.css' %}">
     <link rel="stylesheet" href="{% static 'cms_people/src/css/people.css' %}">
 {% endblock %}
 
 
 {% block bs3_theme_js %}
     {{ block.super }}
+    <script>
+        MAP_COORDS = [{{ MAP_COORDS.0 }}, {{ MAP_COORDS.1 }}];
+        MAP_ZOOM = {{ MAP_ZOOM|escapejs }};
+        elements = {{ elements|safe }};
+        // elements = {'42.93333,-9.16667': [1,2,3,4,5,6]};
+    </script>
     <script type="text/javascript" src="{% static 'cms_contact/src/libs/leaflet/dist/leaflet-src.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cms_contact/src/libs/leaflet.markercluster/dist/leaflet.markercluster-src.js' %}"></script>
     <script type="text/javascript" src="{% static 'cms_people/src/js/people.js' %}"></script>
 
 {% endblock %}
