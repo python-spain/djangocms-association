@@ -7,12 +7,31 @@ var osm = new L.TileLayer(osmUrl, {
     attribution: osmAttrib});
 mymap.addLayer(osm);
 
+
+L.Marker.extend({
+    options: {
+        pk: null
+    }
+});
+
+
 markers = L.markerClusterGroup();
 $.each(elements, function (key, values) {
     key = key.split(',');
-    $.each(values, function () {
-        markers.addLayer(L.marker(key));
+    $.each(values, function (i, value) {
+        markers.addLayer(L.marker(key, {pk: value}));
     });
 
 });
 mymap.addLayer(markers);
+
+
+markers.on('click', function (a) {
+    console.log(a.layer);
+});
+
+
+markers.on('clusterclick', function (a) {
+    // a.layer is actually a cluster
+    console.log(a.layer.getAllChildMarkers());
+});
