@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from django.conf import settings
 from django.shortcuts import get_object_or_404
+from django.views.generic import ListView
 from django.views.generic.base import TemplateView
 
 from cms_people.models import Person
@@ -37,10 +38,18 @@ class PeopleView(TemplateView):
         context = super(PeopleView, self).get_context_data(**kwargs)
         context['MAP_COORDS'] = settings.MAP_COORDS
         context['MAP_ZOOM'] = settings.MAP_ZOOM
-        context['elements'] = dict(group_by_coord(self.get_elements(),
-                                                  lambda x: x.pk,
+        context['elements'] = dict(group_by_coord(self.get_elements(), lambda x: x.pk,
                                                   lambda x: ','.join(map(str, reversed(x)))))
         return context
+
+
+class PeopleMapResultView(ListView):
+    queryset = Person.objects.all()
+    template_name = 'cms_people/people_map_result.html'
+
+    def get_queryset(self):
+        pks = self.request.GET.get('pks', [])
+        return self.queryset.filter(pk__in=pks.split(','))
 
 
 class PersonView(DetailView):

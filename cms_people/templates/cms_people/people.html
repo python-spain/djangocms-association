@@ -1,9 +1,19 @@
 {% extends "cms_people/base.html" %}
-{% load static %}
+{% load static i18n %}
 
 {% block content %}
     <div id="people">
         <div id="mapid"></div>
+        <div id="results" style="display: none">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {% trans "Results" %}
+                    <span class="glyphicon glyphicon-remove close pull-right"></span>
+                </div>
+                <div class="panel-body"></div>
+            </div>
+        </div>
+
     </div>
 {% endblock %}
 
@@ -22,9 +32,12 @@
     <script>
         MAP_COORDS = [{{ MAP_COORDS.0 }}, {{ MAP_COORDS.1 }}];
         MAP_ZOOM = {{ MAP_ZOOM|escapejs }};
+        RESULTS_URL = "{% url 'people:people_map_result' %}";
         elements = {{ elements|safe }};
-        // elements = {'42.93333,-9.16667': [1,2,3,4,5,6]};
+        elements = {'42.93333,-9.16667': [1,2,3,4,5,6]};
     </script>
+    <script type="text/javascript" src="{% static 'cms_contact/src/libs/mobile-detect/mobile-detect.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cms_contact/src/libs/lodash/dist/lodash.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'cms_contact/src/libs/leaflet/dist/leaflet-src.js' %}"></script>
     <script type="text/javascript" src="{% static 'cms_contact/src/libs/leaflet.markercluster/dist/leaflet.markercluster-src.js' %}"></script>
     <script type="text/javascript" src="{% static 'cms_people/src/js/people.js' %}"></script>

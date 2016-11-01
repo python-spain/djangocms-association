@@ -2,6 +2,7 @@ from cities.models import District, City, Subregion, Region
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.db.models import PointField
+from django.utils.functional import cached_property
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -11,6 +12,22 @@ from django.utils.translation import ugettext_lazy as _
 from taggit.managers import TaggableManager
 
 from cms_contact.contact_social import CONTACT_FIELD_TYPES, remove_social_options, SOCIAL
+
+
+ADDRESS_PRIVACY = [
+    ('HIDDEN', _('Hidden')),
+    ('ONLYREGION', _('Show only region')),
+    ('ONLYCITY', _('Show only city')),
+    ('COMPLETE', _('Show full address')),
+]
+
+
+ADDRESS_PRIVACY_FIELDS = {
+    'HIDDEN': [],
+    'ONLYREGION': ['subregion', 'region', 'country'],
+    'ONLYCITY': ['city_name', 'subregion', 'region', 'custom_postal_code', 'country'],
+    'COMPLETE': ['street', 'city_name', 'subregion', 'region', 'custom_postal_code', 'country'],
+}
 
 
 class AbstractAddress(models.Model):
@@ -37,6 +54,20 @@ class AbstractAddress(models.Model):
             if hasattr(item, 'region'):
                 return item.region.country
             return item.country
+
+    @cached_property
+    def country(self):
+        return self.get_country()
+
+    def full_address(self, privacy='COMPLETE', exclude=()):
+        fields = [x for x in ADDRESS_PRIVACY_FIELDS[privacy] if x not in exclude]
+        fields = map(lambda x: str(getattr(self, x)), fields)
+        fields = list(filter(lambda x: x, fields))
+        return ' '.join(fields)
+
+    @cached_property
+    def city_name(self):
+        return self.custom_city or self.city.name
 
     def clean(self):
         if not self.city and not self.custom_city:

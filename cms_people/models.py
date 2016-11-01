@@ -1,24 +1,15 @@
 from django.conf import settings
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from cms_contact.models import AbstractContact
-
+from cms_contact.models import AbstractContact, ADDRESS_PRIVACY
 
 REAL_NAME_PRIVACY = [
     ('HIDDEN', _('Hidden')),
     ('ONLYMEMBERS', _('Only Members')),
     ('VISIBLE', _('Always visible')),
 ]
-
-
-ADDRESS_PRIVACY = [
-    ('HIDDEN', _('Hidden')),
-    ('ONLYREGION', _('Show only region')),
-    ('ONLYCITY', _('Show only city')),
-    ('COMPLETE', _('Show full address')),
-]
-
 
 BIO_PRIVACY = REAL_NAME_PRIVACY
 EMAIL_PRIVACY = REAL_NAME_PRIVACY
@@ -79,3 +70,35 @@ class Person(AbstractContact):
             if self.avatar != person.avatar:
                 person.avatar.delete(save=False)
         super(Person, self).save(**kwargs)
+
+    @cached_property
+    def username(self):
+        return self.user.username
+
+    @cached_property
+    def first_name(self):
+        return self.user.first_name
+
+    @cached_property
+    def last_name(self):
+        return self.user.last_name
+
+    @cached_property
+    def email(self):
+        return self.user.email
+
+    def get_full_address(self, exclude=()):
+        if not self.address:
+            return ''
+        return self.address.full_address(self.address_privacy, exclude=exclude)
+
+    @cached_property
+    def full_address(self):
+        return self.get_full_address()
+
+    @cached_property
+    def short_address(self):
+        return self.get_full_address(('street', 'custom_postal_code', 'country'))
+
+    def __str__(self):
+        return self.username

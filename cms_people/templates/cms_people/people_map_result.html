@@ -1,0 +1,15 @@
+{% for person in object_list %}
+    <a href="{% url 'people:person' person.username %}" target="_blank">
+        <div class="media">
+            <div class="media-left media-middle">
+                <div class="avatar">
+                        <div style="background-image: url({{ person.avatar.url }})"></div>
+                    </div>
+            </div>
+            <div class="media-body media-middle">
+                <h2 class="media-heading">{{ person.username }}</h2>
+                <span class="text-muted">{{ person.short_address }}</span>
+            </div>
+        </div>
+    </a>
+{% endfor %}
