@@ -36,7 +36,7 @@ class AbstractAddress(models.Model):
 
     The text of street is free. If the city does not exist can be entered manually.
     """
-    street = models.CharField(max_length=120, verbose_name=_('Street and number'))
+    street = models.CharField(max_length=120, verbose_name=_('Street and number'), blank=True)
     # TODO: change to point
     poiny = PointField(blank=True, null=True)
     district = models.ForeignKey(District, blank=True, null=True, on_delete=models.SET_NULL, verbose_name=_('District'))
