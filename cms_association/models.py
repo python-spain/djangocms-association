@@ -27,6 +27,9 @@ class Association(AbstractContact):
     foundation_date = models.DateField(auto_now_add=True)
     death_date = models.DateField(blank=True, null=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Membership(models.Model):
     association = models.ForeignKey(Association, on_delete=models.CASCADE)
