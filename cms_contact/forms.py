@@ -4,11 +4,12 @@ from django.utils import six
 from cities.models import City, Subregion, Region, Country
 from django.contrib.auth.models import User
 from django.db.models import When, Value, Case, IntegerField
-from django.forms import ModelForm, ChoiceField, CharField, ModelChoiceField
+from django.forms import ModelForm, ChoiceField, CharField, ModelChoiceField, forms
 from django.forms.models import ModelChoiceIterator, modelformset_factory
 from django.forms.widgets import Input, Select
 from django.utils.encoding import force_text
 from django_select2.forms import  ModelSelect2Widget
+from django.conf import settings
 
 from cms_contact.models import Address, GenericContactField
 
@@ -40,6 +41,12 @@ class AddressWidget(ModelSelect2Widget):
         # 'name__icontains',
     ]
 
+    def __init__(self, *args, **kwargs):
+        self.theme = kwargs.pop('theme', 'bootstrap')
+        self.include_js = kwargs.pop('include_js', True)
+        self.include_css = kwargs.pop('include_css', True)
+        super(AddressWidget, self).__init__(*args, **kwargs)
+
     def render_options(self, *args):
         """Render only selected options and set QuerySet from :class:`ModelChoicesIterator`."""
         try:
@@ -69,7 +76,8 @@ class AddressWidget(ModelSelect2Widget):
         extra_attrs = extra_attrs or {}
         extra_attrs.setdefault('class', '')
         extra_attrs.setdefault('style', 'width: {}'.format(self.width))
-        extra_attrs.setdefault('data-theme', 'bootstrap')
+        if self.theme:
+            extra_attrs.setdefault('data-theme', self.theme)
         if self.create_new:
             extra_attrs.setdefault('data-tags', 'true')
             extra_attrs['class'] += ' django-select2-create-tag'
@@ -79,7 +87,10 @@ class AddressWidget(ModelSelect2Widget):
     def _get_media(self):
         media = super(AddressWidget, self)._get_media()
         media._js.remove('django_select2/django_select2.js')
-        media.add_js(['cms_contact/src/js/django_select2.js'])
+        if self.include_js:
+            media.add_js(['cms_contact/src/js/django_select2.js'])
+        if not self.include_css:
+            media._css['screen'].pop(0)
         return media
 
     media = property(_get_media)
@@ -130,7 +141,6 @@ class AddressForm(ModelForm):
     def __init__(self, **kwargs):
         print(kwargs)
         initial = kwargs.pop('initial', {})
-        country_field = None
         if 'instance' in kwargs:
             instance = kwargs['instance']
             initial['country'] = instance.get_country()

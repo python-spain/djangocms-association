@@ -26,6 +26,7 @@
     "leaflet": "^1.0.1",
     "leaflet.markercluster": "Leaflet.markercluster#^1.0.0",
     "lodash": "^4.16.6",
-    "mobile-detect": "mobile-detect.js#^1.3.3"
+    "mobile-detect": "mobile-detect.js#^1.3.3",
+    "jquery": "^3.1.1"
   }
 }
