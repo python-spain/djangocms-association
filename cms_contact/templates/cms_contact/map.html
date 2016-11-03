@@ -1,0 +1,44 @@
+{% extends "cms_people/base.html" %}
+{% load static i18n %}
+
+{% block content %}
+    <div id="people">
+        <div id="mapid"></div>
+        <div id="results" style="display: none">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {% trans "Results" %}
+                    <span class="glyphicon glyphicon-remove close pull-right"></span>
+                </div>
+                <div class="panel-body"></div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+
+{% block bs3_theme_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'cms_contact/src/libs/leaflet/dist/leaflet.css' %}">
+    <link rel="stylesheet" href="{% static 'cms_contact/src/libs/leaflet.markercluster/dist/MarkerCluster.css' %}">
+    <link rel="stylesheet" href="{% static 'cms_contact/src/libs/leaflet.markercluster/dist/MarkerCluster.Default.css' %}">
+    <link rel="stylesheet" href="{% static 'cms_people/src/css/people.css' %}">
+{% endblock %}
+
+
+{% block bs3_theme_js %}
+    {{ block.super }}
+    <script>
+        MAP_COORDS = [{{ MAP_COORDS.0 }}, {{ MAP_COORDS.1 }}];
+        MAP_ZOOM = {{ MAP_ZOOM|escapejs }};
+        RESULTS_URL = "{% url 'people:people_map_result' %}";
+        elements = {{ elements|safe }};
+    </script>
+    <script type="text/javascript" src="{% static 'cms_contact/src/libs/mobile-detect/mobile-detect.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cms_contact/src/libs/lodash/dist/lodash.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cms_contact/src/libs/leaflet/dist/leaflet-src.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cms_contact/src/libs/leaflet.markercluster/dist/leaflet.markercluster-src.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cms_people/src/js/people.js' %}"></script>
+
+{% endblock %}

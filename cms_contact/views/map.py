@@ -1,5 +1,8 @@
 from collections import defaultdict
 
+from django.conf import settings
+from django.views.generic import TemplateView
+
 
 def get_coords(element, privacy=False):
     place = None
@@ -21,3 +24,18 @@ def group_by_coord(elements, value_fn=lambda x: x, key_fn=lambda x: x):
         coords = key_fn(coords)
         data[coords].append(value_fn(element))
     return data
+
+
+class MapView(TemplateView):
+    model = None
+
+    def get_elements(self):
+        return self.model.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(MapView, self).get_context_data(**kwargs)
+        context['MAP_COORDS'] = settings.MAP_COORDS
+        context['MAP_ZOOM'] = settings.MAP_ZOOM
+        context['elements'] = dict(group_by_coord(self.get_elements(), lambda x: x.pk,
+                                                  lambda x: ','.join(map(str, reversed(x)))))
+        return context
