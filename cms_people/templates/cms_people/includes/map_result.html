@@ -1,0 +1,6 @@
+{% extends "cms_contact/includes/map_result.html" %}
+
+{% block form_url %}{% url 'people:person' object.username %}{% endblock %}
+{% block title %}{{ object.username }}{% endblock %}
+{% block description %}{{ object.short_address }}{% endblock %}
+{% block image_url %}{{ object.avatar.url }}{% endblock %}

@@ -32,7 +32,7 @@
     <script>
         MAP_COORDS = [{{ MAP_COORDS.0 }}, {{ MAP_COORDS.1 }}];
         MAP_ZOOM = {{ MAP_ZOOM|escapejs }};
-        RESULTS_URL = "{% url 'people:people_map_result' %}";
+        RESULTS_URL = "{% block results_url %}{% endblock %}";
         elements = {{ elements|safe }};
     </script>
     <script type="text/javascript" src="{% static 'cms_contact/src/libs/mobile-detect/mobile-detect.js' %}"></script>

@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 
-from cms_contact.views.map import MapView
+from cms_contact.views.map import MapView, MapResultView
 from cms_people.models import Person
 
 
@@ -11,13 +11,9 @@ class PeopleView(MapView):
     model = Person
 
 
-class PeopleMapResultView(ListView):
+class PeopleMapResultView(MapResultView):
     queryset = Person.objects.all()
-    template_name = 'cms_people/people_map_result.html'
-
-    def get_queryset(self):
-        pks = self.request.GET.get('pks', [])
-        return self.queryset.filter(pk__in=pks.split(','))
+    template_name = 'cms_people/people_map_results.html'
 
 
 class PersonView(DetailView):

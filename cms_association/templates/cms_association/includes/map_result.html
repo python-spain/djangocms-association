@@ -1,0 +1,5 @@
+{% extends "cms_contact/includes/map_result.html" %}
+
+{% block title %}{{ object.name }}{% endblock %}
+{% block description %}{% endblock %}
+{% block image_url %}{% if object.logo %}{{ object.logo.url }}{% endif %}{% endblock %}

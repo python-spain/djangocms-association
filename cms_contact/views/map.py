@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from django.conf import settings
+from django.views.generic import ListView
 from django.views.generic import TemplateView
 
 
@@ -39,3 +40,9 @@ class MapView(TemplateView):
         context['elements'] = dict(group_by_coord(self.get_elements(), lambda x: x.pk,
                                                   lambda x: ','.join(map(str, reversed(x)))))
         return context
+
+
+class MapResultView(ListView):
+    def get_queryset(self):
+        pks = self.request.GET.get('pks', [])
+        return self.queryset.filter(pk__in=pks.split(','))

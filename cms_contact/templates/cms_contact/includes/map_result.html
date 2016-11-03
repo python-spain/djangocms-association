@@ -1,0 +1,13 @@
+<a href="{% block form_url%}{% endblock %}" target="_blank">
+    <div class="media">
+        <div class="media-left media-middle">
+            <div class="avatar">
+                <div style="background-image: url({% block image_url %}{% endblock %})"></div>
+            </div>
+        </div>
+        <div class="media-body media-middle">
+            <h2 class="media-heading">{% block title %}{% endblock %}</h2>
+            <span class="text-muted">{% block description %}{% endblock %}</span>
+        </div>
+    </div>
+</a>
