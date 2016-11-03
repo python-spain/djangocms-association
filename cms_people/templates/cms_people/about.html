@@ -4,7 +4,7 @@
 {% block form %}
     <form action="{% url 'profile_about' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {% include "cms_people/card.html" %}
+        {% include "cms_people/includes/card.html" %}
 
         <div class="form-horizontal">
             {% bootstrap_field form.first_name layout='horizontal' %}

@@ -2,20 +2,20 @@
 {% load static i18n %}
 
 {% block content %}
-    <div class="container" id="person">
+    <div class="container" id="association">
         <div class="row">
             <div class="col-md-14 col-sm-offset-2">
-                {% include "cms_people/card.html" with include_real_name=real_name_privacy left_col_class="col-md-6" right_col_class="col-md-18" %}
+                {% include "cms_association/includes/card.html" with include_real_name=real_name_privacy %}
             </div>
         </div>
         <div class="row">
             <div class="col-md-13 col-sm-offset-2">
                 {% if bio_privacy and object.bio %}
-                    <div class="bio text-justify">{{ object.bio }}</div>
+                    <div class="bio text-justify">{{ object.description }}</div>
                 {% else %}
                     <div class="alert alert-info" role="alert">
                         <strong>{% trans "Doh!" %}</strong>
-                        {% trans "This user has not yet written a bio text or he is too embarrassed to teach it." %}
+                        {% trans "This association has not yet written a description text." %}
                     </div>
                 {% endif %}
                 <div class="interests">
@@ -50,30 +50,6 @@
                         </ul>
                     </div>
                 </div>
-                {% if object.address_privacy != 'HIDDEN' %}
-                <div class="media">
-                    <div class="media-left">
-                        <img src="{% static 'cms_contact/src/img/map.png' %}" alt="Map">
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading">{% trans "Address" %}</h4>
-                        <address>
-                            {% if object.address_privacy == 'COMPLETE' %}
-                            {{ object.address.street }}<br>
-                            {% endif %}
-                            {% if object.address_privacy == 'COMPLETE' or object.address_privacy == 'ONLYCITY' %}
-                            {{ object.address.city }}, {{ object.address.subregion }}<br>
-                            {% endif %}
-                            {{ object.address.region }}
-                            {% if object.address_privacy == 'COMPLETE' or object.address_privacy == 'ONLYCITY' %}
-                                {{ object.address.custom_postal_code }}
-                            {% endif %}
-                            {{ object.address.get_country }}
-                        </address>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
         </div>
     </div>
 {% endblock %}
