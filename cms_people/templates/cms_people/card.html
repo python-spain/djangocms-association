@@ -11,7 +11,7 @@
     </div>
     <div class="{{ right_col_class|default:'col-md-18' }}">
         <h1 class="username">
-            {{ view.request.user.username }}
+            {{ object.user.username }}
             {% if view.request.user.is_staff %}
                 <span class="label label-primary">{% trans "Staff" %}</span>
             {% endif %}
@@ -24,7 +24,7 @@
         {% endif %}
         <p>
             <span class="text-muted since">
-            {% blocktrans with view.request.user.date_joined|timesince as since %}
+            {% blocktrans with object.user.date_joined|timesince as since %}
                 Joined {{ since }} ago
             {% endblocktrans %}
             </span>
