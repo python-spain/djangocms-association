@@ -65,6 +65,9 @@ class Person(AbstractContact):
     def get_telephones_privacy(self, request):
         return privacy_validation(self.telephones_privacy, request)
 
+    def get_address_privacy(self):
+        return self.address_privacy
+
     def save(self, **kwargs):
         if self.pk:
             person = Person.objects.get(pk=self.pk)

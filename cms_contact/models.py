@@ -63,8 +63,8 @@ class AbstractAddress(models.Model):
 
     def full_address(self, privacy='COMPLETE', exclude=()):
         fields = [x for x in ADDRESS_PRIVACY_FIELDS[privacy] if x not in exclude]
-        fields = map(lambda x: str(getattr(self, x, None)), fields)
-        fields = list(filter(lambda x: x, fields))
+        fields = map(lambda x: getattr(self, x, None), fields)
+        fields = [str(y) for y in filter(lambda x: x, fields)]
         return ' '.join(fields)
 
     @cached_property
@@ -125,10 +125,13 @@ class AbstractContact(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def get_address_privacy(self):
+        return 'COMPLETE'
+
     def get_full_address(self, exclude=()):
         if not self.address:
             return ''
-        return self.address.full_address(self.address_privacy, exclude=exclude)
+        return self.address.full_address(self.get_address_privacy(), exclude=exclude)
 
     @cached_property
     def full_address(self):
