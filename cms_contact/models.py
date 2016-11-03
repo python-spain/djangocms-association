@@ -125,6 +125,19 @@ class AbstractContact(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def get_full_address(self, exclude=()):
+        if not self.address:
+            return ''
+        return self.address.full_address(self.address_privacy, exclude=exclude)
+
+    @cached_property
+    def full_address(self):
+        return self.get_full_address()
+
+    @cached_property
+    def short_address(self):
+        return self.get_full_address(('street', 'custom_postal_code', 'country'))
+
     class Meta:
         abstract = True
 
