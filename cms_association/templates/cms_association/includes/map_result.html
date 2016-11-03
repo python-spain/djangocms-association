@@ -1,5 +1,6 @@
 {% extends "cms_contact/includes/map_result.html" %}
 
+{% block form_url %}{% url 'association:association' object.slug %}{% endblock %}
 {% block title %}{{ object.name }}{% endblock %}
 {% block description %}{% endblock %}
 {% block image_url %}{% if object.logo %}{{ object.logo.url }}{% endif %}{% endblock %}
