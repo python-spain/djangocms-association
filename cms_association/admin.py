@@ -13,6 +13,7 @@ class AssociationForm(IncludeAddressForm):
 
 @admin.register(Association)
 class AssociationAdmin(IncludeAddressAdmin):
+    prepopulated_fields = {"slug": ("name",)}
 
     class Media:
         js = ('cms_contact/src/js/jquery-admin-init.js',)

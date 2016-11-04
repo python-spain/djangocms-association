@@ -2,14 +2,12 @@ from itertools import chain
 
 from django.utils import six
 from cities.models import City, Subregion, Region, Country
-from django.contrib.auth.models import User
 from django.db.models import When, Value, Case, IntegerField
-from django.forms import ModelForm, ChoiceField, CharField, ModelChoiceField, forms
+from django.forms import ModelForm, ModelChoiceField
 from django.forms.models import ModelChoiceIterator, modelformset_factory
-from django.forms.widgets import Input, Select
+from django.forms.widgets import Select
 from django.utils.encoding import force_text
 from django_select2.forms import  ModelSelect2Widget
-from django.conf import settings
 
 from cms_contact.models import Address, GenericContactField
 
@@ -37,9 +35,11 @@ class AddressWidget(ModelSelect2Widget):
         # - Second Starts with term
         # - Third population
         # - Last alphanum.
-        'name__istartswith',
+        'name__icontains',
+        # 'alt_names__name__icontains',
         # 'name__icontains',
     ]
+
 
     def __init__(self, *args, **kwargs):
         self.theme = kwargs.pop('theme', 'bootstrap')
