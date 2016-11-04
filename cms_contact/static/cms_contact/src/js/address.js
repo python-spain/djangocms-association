@@ -76,10 +76,16 @@ $(function () {
         setAddressUsignGeoposition();
     }
 
-    $('#id_city, #id_subregion').on('select2:select', function (ev) {
+    $('#id_city, #id_subregion, #id_region').on('select2:select', function (ev) {
         var $input = $(ev.target);
-        var data = {};
+        var $postal_code = $('#id_custom_postal_code');
         $.post(dataType, {'name': $input.val(), 'model': $input.attr('name')}, function(data){
+            if(data['coords']){
+                setMapGeoposition(data['coords'][1], data['coords'][0]);
+            }
+            if(data['postal_code']){
+                $postal_code.val(data['postal_code']);
+            }
             $.each(data, function(key, value){
                 if(!value){
                     return

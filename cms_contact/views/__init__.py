@@ -38,4 +38,6 @@ class AjaxPopulateAddress(AjaxView):
         # forma más fiable de hacer esto.
         postal_codes = PostalCode.objects.filter(name=obj.name)
         data['postal_code'] = postal_codes.first().code if postal_codes.count() else None
+        if hasattr(obj, 'location'):
+            data['coords'] = obj.location.coords
         return data
