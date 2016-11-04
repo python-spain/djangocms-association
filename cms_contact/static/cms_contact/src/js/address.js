@@ -76,8 +76,10 @@ $(function () {
         setAddressUsignGeoposition();
     }
 
-    $('#id_city').on('select2:select', function () {
-        $.post(dataType, {city: $('#id_city').val()}, function(data){
+    $('#id_city, #id_subregion').on('select2:select', function (ev) {
+        var $input = $(ev.target);
+        var data = {};
+        $.post(dataType, {'name': $input.val(), 'model': $input.attr('name')}, function(data){
             $.each(data, function(key, value){
                 if(!value){
                     return

@@ -1,7 +1,8 @@
 import json
 
 import six
-from cities.models import City, PostalCode
+from cities.models import City, PostalCode, Subregion, Region
+from django.http import HttpResponseServerError
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
@@ -24,7 +25,12 @@ class AjaxPopulateAddress(AjaxView):
         return {"foo": 3}
 
     def post(self, request, data):
-        obj = get_object_or_404(City, pk=data['city'])
+        if not data.get('name'):
+            return HttpResponseServerError("Name name is required.")
+        model = {'city': City, 'subregion': Subregion, 'region': Region}.get(data.get('model'))
+        if not model:
+            return HttpResponseServerError("Invalid model: {}".format(data.get('model')))
+        obj = get_object_or_404(model, pk=data['name'])
         data = {getattr(obj, key).__class__.__name__: {x: getattr(getattr(obj, key), x) for x in ['id', 'name']}
                 for key in ['subregion', 'region', 'region__country', 'country'] if hasattr(obj, key)}
         # TODO: en la web de Django cities se muestra cómo obtener el código postal en función a la distancia.
