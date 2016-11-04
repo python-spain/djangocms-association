@@ -66,34 +66,44 @@ function setMapGeoposition(lat, lon){
 
 function setAddressUsignGeoposition(){
     navigator.geolocation.watchPosition(function(position) {
-      setMapGeoposition(position.coords.latitude, position.coords.longitude);
+        setMapGeoposition(position.coords.latitude, position.coords.longitude);
+        $.post(dataType, {'lon': position.coords.longitude, 'lat': position.coords.latitude}, function(data){
+            setFormAddress(data);
+        });
+    });
+}
+
+function setFormAddress(data){
+    var $postal_code = $('#id_custom_postal_code');
+
+    if(data['coords']){
+        setMapGeoposition(data['coords'][1], data['coords'][0]);
+    }
+    if(data['postal_code']){
+        $postal_code.val(data['postal_code']);
+    }
+    $.each(data, function(key, value){
+        if(!value){
+            return
+        }
+        var $select = $('#id_' + key.toLowerCase());
+        $select.append('<option value="' + value.id +
+                                             '" selected="selected">' + value.name + '</option>');
     });
 }
 
 $(function () {
-    if ("geolocation" in navigator) {
+    if ("geolocation" in navigator && !coords) {
         /* geolocation is available */
         setAddressUsignGeoposition();
+    } else if(coords) {
+        setMapGeoposition(coords[0], coords[1]);
     }
 
     $('#id_city, #id_subregion, #id_region').on('select2:select', function (ev) {
         var $input = $(ev.target);
-        var $postal_code = $('#id_custom_postal_code');
         $.post(dataType, {'name': $input.val(), 'model': $input.attr('name')}, function(data){
-            if(data['coords']){
-                setMapGeoposition(data['coords'][1], data['coords'][0]);
-            }
-            if(data['postal_code']){
-                $postal_code.val(data['postal_code']);
-            }
-            $.each(data, function(key, value){
-                if(!value){
-                    return
-                }
-                var $select = $('#id_' + key.toLowerCase());
-                $select.append('<option value="' + value.id +
-                                                     '" selected="selected">' + value.name + '</option>');
-            });
+            setFormAddress(data);
         });
     });
 });

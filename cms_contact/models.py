@@ -71,6 +71,10 @@ class AbstractAddress(models.Model):
     def city_name(self):
         return self.custom_city or (self.city.name if self.city else None)
 
+    @cached_property
+    def place(self):
+        return self.city or self.subregion or self.region
+
     def clean(self):
         if not self.city and not self.custom_city:
             raise ValidationError(_('You must provide a city or a custom city'))
@@ -140,6 +144,12 @@ class AbstractContact(models.Model):
     @cached_property
     def short_address(self):
         return self.get_full_address(('street', 'custom_postal_code', 'country'))
+
+    @cached_property
+    def place(self):
+        if not self.address:
+            return
+        return self.address.place
 
     class Meta:
         abstract = True

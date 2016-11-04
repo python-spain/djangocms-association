@@ -38,7 +38,10 @@
     {{ form.media.js }}
     <script>
         dataType = "{% url "dataType" %}";
-        csrfToken = "{{ csrf_token }}"
+        csrfToken = "{{ csrf_token }}";
+        {% if object.place and object.place.location %}
+        coords = [{{ object.place.location.coords.1 }}, {{ object.place.location.coords.0 }}];
+        {% endif %}
     </script>
     <script src="{% static "cms_contact/src/js/address.js" %}" type="text/javascript"></script>
 {% endblock %}
