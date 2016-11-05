@@ -45,7 +45,7 @@ class AjaxPopulateAddress(AjaxView):
             order_by_expression = CombinedExpression(F('location'), '<->', GeomValue(pnt))
             try:
                 obj = City.objects.order_by(order_by_expression)[0]
-            except:
+            except IndexError:
                 return
         fields = ['subregion', 'region', 'region__country', 'country']
         data = {getattr(obj, key).__class__.__name__: {x: getattr(getattr(obj, key), x) for x in ['id', 'name']}
@@ -53,11 +53,11 @@ class AjaxPopulateAddress(AjaxView):
         if not data.get('name'):
             # Is geo coord search
             data['city'] = {'id': obj.pk, 'name': obj.name}
-        # TODO: en la web de Django cities se muestra cómo obtener el código postal en función a la distancia.
-        # No obstante, es bastante lento. Mientras lo  hago por el nombre, aunque habría que encontrar una
-        # forma más fiable de hacer esto.
-        postal_codes = PostalCode.objects.filter(name=obj.name)
-        data['postal_code'] = postal_codes.first().code if postal_codes.count() else None
         if hasattr(obj, 'location'):
+            order_by_expression = CombinedExpression(F('location'), '<->', GeomValue(obj.location))
+            try:
+                data['postal_code'] = PostalCode.objects.order_by(order_by_expression)[0].code
+            except IndexError:
+                pass
             data['coords'] = obj.location.coords
         return data
