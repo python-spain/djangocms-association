@@ -72,6 +72,9 @@ class AddressWidget(ModelSelect2Widget):
             output.append(self.render_option(selected_choices, option_value, option_label))
         return '\n'.join(output)
 
+    def get_queryset(self):
+        return main_country_priority(self.queryset)
+
     def build_attrs(self, extra_attrs=None, **kwargs):
         extra_attrs = extra_attrs or {}
         extra_attrs.setdefault('class', '')
@@ -100,18 +103,17 @@ class AddressWidget(ModelSelect2Widget):
 
 
 class CityWidget(AddressWidget):
-    queryset = main_country_priority(City.objects).all()
-    # queryset = City.objects.all()
+    queryset = City.objects.all()
     create_new = True
 
 
 class SubregionWidget(AddressWidget):
-    queryset = main_country_priority(Subregion.objects, 'region__country').all()
-    # queryset = Subregion.objects.all()
+    def get_queryset(self):
+        return main_country_priority(Subregion.objects, 'region__country').all()
 
 
 class RegionWidget(AddressWidget):
-    queryset = main_country_priority(Region.objects).all()
+    queryset = Region.objects.all()
     # queryset = Region.objects.all()
 
     def label_from_instance(self, obj):

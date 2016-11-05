@@ -2,7 +2,6 @@ from cities.models import District, City, Subregion, Region
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.db.models import PointField
-from django.db.models.signals import pre_delete
 from django.utils.functional import cached_property
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.exceptions import ValidationError
