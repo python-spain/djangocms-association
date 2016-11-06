@@ -1,6 +1,10 @@
 {% extends "cms_people/base.html" %}
 {% load static i18n %}
 
+{% block header %}
+    {% include bs3_conf.BOOTSTRAP3_MENU_TEMPLATE %}
+{% endblock %}
+
 {% block content %}
     <div id="people">
         <div id="mapid"></div>
