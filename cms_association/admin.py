@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib import admin
 
 from cms_association.models import Association
@@ -14,6 +13,15 @@ class AssociationForm(IncludeAddressForm):
 @admin.register(Association)
 class AssociationAdmin(IncludeAddressAdmin):
     prepopulated_fields = {"slug": ("name",)}
+
+    fieldsets = (
+        (None, {
+            'fields': ('name', 'slug', 'description', 'logo', 'target', 'death_date', 'interests'),
+        }),
+        ('Street', {
+            'fields': (('street', 'city'), ('subregion', 'region')),
+        })
+    )
 
     class Media:
         js = ('cms_contact/src/js/jquery-admin-init.js',)

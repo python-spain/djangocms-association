@@ -7,7 +7,7 @@ from cms_contact.models import AbstractContact
 from cms_people.models import Person
 
 BOOKING_OPTIONS = [
-    ('OPTIONAL', _('Available')),
+    ('OPTIONAL', _('Optional')),
     ('REQUIRED', _('Required')),
     ('UNAVAILABLE', _('Free entry'))
 ]
@@ -30,7 +30,7 @@ class Event(AbstractContact):
     association = models.ForeignKey(Association, on_delete=models.CASCADE, blank=True, null=True)
     start_datetime = models.DateTimeField(verbose_name=_('Start datetime'), blank=True, null=True)
     end_datetime = models.DateTimeField(verbose_name=_('End datetime'), blank=True, null=True)
-    booking = models.CharField(max_length=18, choices=BOOKING_OPTIONS, default='OPTIONAL')
+    booking = models.CharField(max_length=18, choices=BOOKING_OPTIONS, default='REQUIRED')
     total_seats = models.PositiveSmallIntegerField(verbose_name=_('Total seats'), blank=True, null=True)
     website_url = models.URLField(verbose_name=_('Website url'), blank=True, null=True)
     booking_url = models.URLField(verbose_name=_('Booking url'), blank=True, null=True)

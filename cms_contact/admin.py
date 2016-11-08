@@ -26,14 +26,6 @@ class IncludeAddressForm(ModelForm):
 
 class IncludeAddressAdmin(admin.ModelAdmin):
     form = IncludeAddressForm
-    fieldsets = (
-        (None, {
-            'fields': ('name', 'slug', 'description', 'logo', 'target', 'death_date', 'interests'),
-        }),
-        ('Street', {
-            'fields': (('street', 'city'), ('subregion', 'region')),
-        })
-    )
 
     def get_changelist_form(self, request, **kwargs):
         super(IncludeAddressAdmin, self).get_changelist_form(request, **kwargs)
