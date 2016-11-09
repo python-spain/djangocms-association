@@ -1,1 +1,15 @@
-{{ object }}
+{% extends "cms_bs3_theme/fullwidth.html" %}
+
+{% block content %}
+    <div class="container" id="event">
+        <h1>{{ object.name }}</h1>
+        <p>{{ object.address.full_address }}</p>
+        <p>{{ object.start_datetime }}</p>
+        <p>{{ object.end_datetime }}</p>
+    </div>
+    <p>{{ object.booking }}</p>
+    <p>{{ object.booking_url }}</p>
+    <p>{{ object.description }}</p>
+    <p>{{ object.website_url }}</p>
+    <p>{{ object.schedule_url }}</p>
+{% endblock %}
