@@ -49,3 +49,5 @@ class EventAdmin(IncludeAddressAdmin):
 
     class Media:
         js = ('cms_contact/src/js/jquery-admin-init.js',)
+        css = {'all': ('//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css',
+                       'pywebes/src/libs/select2-bootstrap-theme/dist/select2-bootstrap.css',)}
