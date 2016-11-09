@@ -1,8 +1,9 @@
-from sched import Event
 
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
 from django.views.generic import ListView
+
+from cms_event.models import Event
 
 
 class EventView(DetailView):
@@ -18,3 +19,4 @@ class EventView(DetailView):
 
 class EventsView(ListView):
     model = Event
+    template_name = 'cms_event/events.html'
